@@ -1,3 +1,5 @@
+part of 'utils.dart';
+
 class Dimensions {
   static double defaultTextSize = 16.00;
   static double titleTextSize = 20.00;

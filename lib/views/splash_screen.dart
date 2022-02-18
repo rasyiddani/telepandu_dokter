@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+part of 'views.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -9,15 +8,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late SharedPreferences sharedPreferences;
+  late String finalToken;
+
   @override
   void initState() {
     super.initState();
-    wait();
+    getValidToken().whenComplete(() {
+      Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacementNamed(
+              context, (finalToken == 'null') ? '/login' : '/dashboard'));
+    });
   }
 
-  Future wait() async {
-    await Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login');
+  Future getValidToken() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var obtainedToken = sharedPreferences.getString("token");
+    setState(() {
+      finalToken = obtainedToken.toString();
     });
   }
 

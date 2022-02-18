@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telemedicine_doctor/views/auth/login.dart';
-import 'package:telemedicine_doctor/views/dashboard.dart';
-import 'package:telemedicine_doctor/views/notification.dart';
-import 'package:telemedicine_doctor/views/splash_screen.dart';
-import 'package:telemedicine_doctor/views/user_profile.dart';
+import 'package:provider/provider.dart';
+import 'package:telemedicine_doctor/providers/providers.dart';
+import 'package:telemedicine_doctor/views/views.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,15 +13,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const SplashScreen(),
-          '/login': (context) => const LoginPage(),
-          '/dashboard': (context) => const DashboardPage(),
-          '/user_profile': (context) => const UserProfile(),
-          '/notification': (context) => const NotificationPage(),
-        });
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const SplashScreen(),
+            '/login': (context) => const LoginPage(),
+            '/forgot_password': (context) => const ForgotPasswordPage(),
+            '/new_password': (context) => const NewPasswordPage(),
+            '/dashboard': (context) => const DashboardPage(),
+            '/profile_menu': (context) => const ProfileMenuPage(),
+            '/user_profile': (context) => const UserProfile(),
+            '/jadwal_profile': (context) => const JadwalProfilePage(),
+            '/pesan_cepat': (context) => const PesanCepatPage(),
+            '/tambah_pesan_cepat': (context) => const TambahPesanCepatPage(),
+            '/edit_pesan_cepat': (context) => const TambahPesanCepatPage(isTambah: false),
+            '/notification': (context) => const NotificationPage(),
+            '/list_patient': (context) => const ListPatientPage(),
+          }),
+    );
   }
 }
