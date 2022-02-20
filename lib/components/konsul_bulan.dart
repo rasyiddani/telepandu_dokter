@@ -5,10 +5,12 @@ class KonsulBulanComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     //widget button
+    //widget button
     Widget button() {
       return InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, '/list_month');
+        },
         child: Container(
           height: 46,
           width: double.infinity,
