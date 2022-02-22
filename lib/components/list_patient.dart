@@ -11,7 +11,7 @@ class ListPatientComponent extends StatelessWidget {
     Widget button() {
       return InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/list_patient');
+          isIndex0 ? Navigator.pushNamed(context, '/av_page') : null;
         },
         child: Container(
           height: 46,

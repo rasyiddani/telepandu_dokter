@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
             '/notification': (context) => const NotificationPage(),
             '/list_patient': (context) => const ListPatientPage(),
             '/list_month': (context) => const ListMonthPage(),
+            '/av_page': (context) => const AvPage(),
           }),
     );
   }

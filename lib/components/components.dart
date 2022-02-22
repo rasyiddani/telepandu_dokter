@@ -8,6 +8,7 @@ part 'card_profile_menu.dart';
 part 'card_user_profile.dart';
 part 'header.dart';
 part 'header_with_button.dart';
+part 'icon_in_av.dart';
 part 'konsul_bulan.dart';
 part 'konsul_hari.dart';
 part 'list_patient.dart';
