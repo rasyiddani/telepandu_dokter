@@ -8,27 +8,59 @@ class ListPatientPage extends StatefulWidget {
 }
 
 class _ListPatientPageState extends State<ListPatientPage> {
+  late bool isLoading;
+
+  @override
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<ListPatientProvider>(context, listen: false)
+        .getListToday(BuildContext);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    ListPatientProvider listPatientProvider =
+        Provider.of<ListPatientProvider>(context);
+
     return Scaffold(
         body: SafeArea(
       child: Column(
         children: [
           const HeaderComponent(isBgWhite: false, title: "Daftar Pasien"),
           Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              children: const [
-                SizedBox(height: 15),
-                ListPatientComponent(isIndex0: true),
-                ListPatientComponent(),
-                ListPatientComponent(),
-                ListPatientComponent(),
-                ListPatientComponent(),
-                ListPatientComponent(),
-              ],
-            ),
+            child: isLoading
+                ? Column(
+                    children: const [
+                      ListTodaySkeleton(),
+                      ListTodaySkeleton(),
+                    ],
+                  )
+                : ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: listPatientProvider.listToday.map((item) {
+                      //get index number
+                      var index = listPatientProvider.listToday.indexOf(item);
+
+                      return ListPatientComponent(
+                        isIndex0: (index == 0) ? true : false,
+                        listToday: item,
+                      );
+                    }).toList(),
+                  ),
           )
         ],
       ),

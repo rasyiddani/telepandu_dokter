@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ListPatientProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -36,6 +37,8 @@ class MyApp extends StatelessWidget {
             '/list_patient': (context) => const ListPatientPage(),
             '/list_month': (context) => const ListMonthPage(),
             '/av_page': (context) => const AvPage(),
+            '/chat_page': (context) => const ChatPage(),
+            '/follow_up': (context) => const FollowUpPage(),
           }),
     );
   }

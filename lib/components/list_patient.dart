@@ -1,8 +1,10 @@
 part of 'components.dart';
 
 class ListPatientComponent extends StatelessWidget {
+  final ListPatientModel listToday;
   final bool isIndex0;
-  const ListPatientComponent({Key? key, this.isIndex0 = false})
+  const ListPatientComponent(
+      {Key? key, this.isIndex0 = false, required this.listToday})
       : super(key: key);
 
   @override
@@ -57,11 +59,11 @@ class ListPatientComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "name",
+                listToday.name!,
                 style: CustomStyle.profileTextButton,
               ),
               Text(
-                "no urut",
+              listToday.queueNumber.toString(),
                 style: CustomStyle.profileTextButton,
               )
             ],
@@ -69,8 +71,8 @@ class ListPatientComponent extends StatelessWidget {
           const SizedBox(height: 3),
           Row(
             children: [
-              Text("Gender", style: CustomStyle.notifSubTitleText),
-              Text("Umur", style: CustomStyle.notifSubTitleText),
+              Text(listToday.gender!, style: CustomStyle.notifSubTitleText),
+              Text(listToday.age!, style: CustomStyle.notifSubTitleText),
             ],
           ),
           const SizedBox(height: 30),

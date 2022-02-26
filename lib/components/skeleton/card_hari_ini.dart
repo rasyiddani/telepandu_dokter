@@ -1,9 +1,7 @@
-part of 'components.dart';
+part of '../components.dart';
 
-class KonsulHariComponent extends StatelessWidget {
-  final ListPatientModel? listDataQueue;
-  const KonsulHariComponent({Key? key, required this.listDataQueue})
-      : super(key: key);
+class CardHariIniSkeleton extends StatelessWidget {
+  const CardHariIniSkeleton({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +54,7 @@ class KonsulHariComponent extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.normal),
               ),
               Text(
-                  "${listDataQueue?.queuNow}/${listDataQueue?.queueTotal} Pasien",
+                  "0/0 Pasien",
                   style: CustomStyle.consultTextButton)
             ],
           )

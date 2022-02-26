@@ -8,12 +8,33 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  bool stateObat = false;
-  bool stateDokter = false;
-  bool stateLab = false;
+  late bool isLoading = false;
+
+  @override
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<ListPatientProvider>(context, listen: false)
+        .getDataQueue(BuildContext);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    ListPatientProvider listPatientProvider =
+        Provider.of<ListPatientProvider>(context);
+
     //widget Header
     Widget header() {
       return Padding(
@@ -99,12 +120,25 @@ class _DashboardPageState extends State<DashboardPage> {
                     thickness: 5,
                   ),
                   const SizedBox(height: 35),
-                  const KonsulHariComponent(),
+                  isLoading
+                      ? const CardHariIniSkeleton()
+                      : KonsulHariComponent(
+                          listDataQueue: listPatientProvider.queue),
                   const SizedBox(height: 35),
                   const KonsulBulanComponent(),
                 ],
               ),
             ),
+            Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: CustomColor.mainColor.withOpacity(0.2),
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: const Center(
+                    child: LoadingCircle(),
+                  ),
+                ))
           ],
         ),
       ),

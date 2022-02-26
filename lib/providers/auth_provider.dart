@@ -26,4 +26,15 @@ class AuthProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> refreshToken() async {
+    try {
+      UserModel user = await AuthServices().refreshToken();
+
+      _user = user;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

@@ -34,19 +34,19 @@ class _AvPageState extends State<AvPage> {
     _engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {
-          print("local user $uid joined");
+          // print("local user $uid joined");
           setState(() {
             _localUserJoined = true;
           });
         },
         userJoined: (int uid, int elapsed) {
-          print("remote user $uid joined");
+          // print("remote user $uid joined");
           setState(() {
             _remoteUid = uid;
           });
         },
         userOffline: (int uid, UserOfflineReason reason) {
-          print("remote user $uid left channel");
+          // print("remote user $uid left channel");
           setState(() {
             _remoteUid = null;
           });
@@ -144,20 +144,31 @@ class _AvPageState extends State<AvPage> {
                   const SizedBox(height: 37),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      IconAvComponents(icon: Icons.mic_rounded),
-                      SizedBox(width: 20),
-                      IconAvComponents(icon: Icons.video_call),
-                      SizedBox(width: 20),
-                      IconAvComponents(icon: Icons.send),
+                    children: [
+                      IconAvComponents(
+                        icon: Icons.mic_rounded,
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 20),
+                      IconAvComponents(
+                        icon: Icons.video_call,
+                        onTap: () {},
+                      ),
+                      const SizedBox(width: 20),
+                      IconAvComponents(
+                          icon: Icons.send,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/chat_page');
+                          }),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.center,
                     child: IconAvComponents(
                       icon: Icons.call_end,
                       isEndCall: true,
+                      onTap: () {},
                     ),
                   )
                 ],

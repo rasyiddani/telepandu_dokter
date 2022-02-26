@@ -3,13 +3,20 @@ part of 'components.dart';
 class IconAvComponents extends StatelessWidget {
   final IconData icon;
   final bool isEndCall;
-  const IconAvComponents({Key? key, required this.icon, this.isEndCall = false})
+  final Function onTap;
+  const IconAvComponents(
+      {Key? key,
+      required this.icon,
+      this.isEndCall = false,
+      required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        onTap();
+      },
       child: Container(
         height: 52,
         width: 52,
