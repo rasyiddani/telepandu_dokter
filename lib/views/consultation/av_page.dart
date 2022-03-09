@@ -7,11 +7,13 @@ class AvPage extends StatefulWidget {
   _AvPageState createState() => _AvPageState();
 }
 
+//http://telemedicine-test.akunku.co/api/log-konsul/{id}
+
 class _AvPageState extends State<AvPage> {
-  final String appId = '40d5d2002f3948dbb3f86c40d1562ffc';
+  final String appId = '40d5d2002f3948dbb3f86c40d1562ffc'; //api
   final String tokenRtc =
-      '00640d5d2002f3948dbb3f86c40d1562ffcIABASQs7ICvpxktxieYSMYFwhZkniZWwk3PYqGlZYOt0jP96k10AAAAAEACEYx7An0kUYgEAAQCdSRRi';
-  final String chanelNameRtc = 'videocalltelepandu';
+      '00640d5d2002f3948dbb3f86c40d1562ffcIABASQs7ICvpxktxieYSMYFwhZkniZWwk3PYqGlZYOt0jP96k10AAAAAEACEYx7An0kUYgEAAQCdSRRi'; //api refresh token
+  final String chanelNameRtc = 'videocalltelepandu'; //no telp pasien
 
   int? _remoteUid;
   bool _localUserJoined = false;

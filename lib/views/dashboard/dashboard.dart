@@ -23,7 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
     });
 
     await Provider.of<ListPatientProvider>(context, listen: false)
-        .getDataQueue(BuildContext);
+        .getDataQueue(context);
 
     setState(() {
       isLoading = false;

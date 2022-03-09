@@ -3,6 +3,7 @@
 part of 'providers.dart';
 
 class ListPatientProvider with ChangeNotifier {
+  ListPatientProvider(BuildContext context);
   /////////////////////////////////////////////////////////
   ListPatientModel? _queue;
 
@@ -46,4 +47,13 @@ class ListPatientProvider with ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////////
+  
+  late ListPatientModel _accept;
+
+  ListPatientModel get accept => _accept;
+
+  set accept(ListPatientModel accept) {
+    _accept = accept;
+    notifyListeners();
+  }
 }

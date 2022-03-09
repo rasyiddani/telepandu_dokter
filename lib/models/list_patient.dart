@@ -4,7 +4,7 @@ class ListPatientModel {
   int? id;
   String? name;
   int? queueNumber;
-  String? age;
+  int? age;
   String? gender;
   int? queueTotal;
   int? queuNow;

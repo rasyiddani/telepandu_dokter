@@ -31,9 +31,8 @@ class ListPatientServices {
       await Provider.of<ListPatientServices>(context, listen: false)
           .getDataQueue(context);
       throw Exception('Token Refresh');
-    } else {
-      throw Exception('Gagal Dapatkan Data');
     }
+    throw Exception('Gagal Dapatkan Data');
   }
 
   Future<List<ListPatientModel>> getDataListToday(context) async {
@@ -61,12 +60,42 @@ class ListPatientServices {
       return listToday;
     }
     if (response.statusCode == 400) {
-      await Provider.of<AuthProvider>(context, listen: false).refreshToken();
-      await Provider.of<ListPatientServices>(context, listen: false)
+      Provider.of<AuthProvider>(context, listen: false).refreshToken();
+      Provider.of<ListPatientServices>(context, listen: false)
           .getDataListToday(context);
       throw Exception('Token Refresh');
     } else {
       throw Exception('Gagal Dapatkan Data');
+    }
+  }
+
+  Future<ListPatientModel> acceptConsult({
+    int? id,
+  }) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'terima-pasien-konsul');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'consult_log_id': id,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 202) {
+      var data = jsonDecode(response.body);
+
+      return data;
+    } else {
+      throw Exception('Gagal Login');
     }
   }
 }

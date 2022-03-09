@@ -14,6 +14,11 @@ class ListTodaySkeleton extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           color: CustomColor.dark3Color.withOpacity(0.5),
         ),
+        child: LinearProgressIndicator(
+          backgroundColor: CustomColor.dark3Color.withOpacity(0.5),
+          valueColor: AlwaysStoppedAnimation<Color>(
+              CustomColor.dark3Color.withOpacity(0.5)),
+        ),
       );
     }
 
@@ -38,16 +43,24 @@ class ListTodaySkeleton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 3),
-          Container(
+          SizedBox(
             height: 15,
             width: double.infinity,
-            color: CustomColor.dark3Color.withOpacity(0.5),
+            child: LinearProgressIndicator(
+              backgroundColor: CustomColor.dark3Color.withOpacity(0.5),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  CustomColor.dark3Color.withOpacity(0.5)),
+            ),
           ),
           const SizedBox(height: 5),
-          Container(
+          SizedBox(
             height: 15,
             width: MediaQuery.of(context).size.width / 3,
-            color: CustomColor.dark3Color.withOpacity(0.5),
+            child: LinearProgressIndicator(
+              backgroundColor: CustomColor.dark3Color.withOpacity(0.5),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  CustomColor.dark3Color.withOpacity(0.5)),
+            ),
           ),
           const SizedBox(height: 30),
           button(),

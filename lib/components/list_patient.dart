@@ -63,7 +63,7 @@ class ListPatientComponent extends StatelessWidget {
                 style: CustomStyle.profileTextButton,
               ),
               Text(
-              listToday.queueNumber.toString(),
+                listToday.queueNumber.toString(),
                 style: CustomStyle.profileTextButton,
               )
             ],
@@ -71,8 +71,13 @@ class ListPatientComponent extends StatelessWidget {
           const SizedBox(height: 3),
           Row(
             children: [
-              Text(listToday.gender!, style: CustomStyle.notifSubTitleText),
-              Text(listToday.age!, style: CustomStyle.notifSubTitleText),
+              Text(
+                  (listToday.gender != "")
+                      ? '${listToday.gender!}, '
+                      : listToday.gender!,
+                  style: CustomStyle.notifSubTitleText),
+              Text(listToday.age.toString(),
+                  style: CustomStyle.notifSubTitleText),
             ],
           ),
           const SizedBox(height: 30),
