@@ -56,4 +56,15 @@ class ListPatientProvider with ChangeNotifier {
     _accept = accept;
     notifyListeners();
   }
+
+  Future<bool> acceptConsult() async {
+    try {
+      ListPatientModel accept = await ListPatientServices().acceptConsult();
+
+      _accept = accept;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

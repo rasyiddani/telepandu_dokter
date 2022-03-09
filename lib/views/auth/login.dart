@@ -109,7 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/forgot_password');
+                                  Navigator.pushNamed(
+                                      context, '/forgot_password');
                                 },
                                 child: Text(
                                   "Lupa kata sandi?",
@@ -138,9 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.black.withOpacity(0.5),
                   height: double.infinity,
                   width: double.infinity,
-                  child: Center(
-                    child:
-                        CircularProgressIndicator(color: CustomColor.mainColor),
+                  child: const Center(
+                    child: LoadingCircle(),
                   ),
                 ))
           ],

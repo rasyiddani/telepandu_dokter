@@ -95,7 +95,7 @@ class ListPatientServices {
 
       return data;
     } else {
-      throw Exception('Gagal Login');
+      throw Exception('Gagal Aktivasi');
     }
   }
 }
