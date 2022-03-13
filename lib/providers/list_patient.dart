@@ -47,24 +47,4 @@ class ListPatientProvider with ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////////
-  
-  late ListPatientModel _accept;
-
-  ListPatientModel get accept => _accept;
-
-  set accept(ListPatientModel accept) {
-    _accept = accept;
-    notifyListeners();
-  }
-
-  Future<bool> acceptConsult() async {
-    try {
-      ListPatientModel accept = await ListPatientServices().acceptConsult();
-
-      _accept = accept;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 }

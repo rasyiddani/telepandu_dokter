@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:telemedicine_doctor/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,8 @@ import 'package:telemedicine_doctor/providers/providers.dart';
 import 'package:http/http.dart' as http;
 
 part 'auth_services.dart';
+part 'consult_services.dart';
 part 'list_patient.dart';
+part 'messages_services.dart';
 
 String baseUrl = 'http://telepandu.id/api/';

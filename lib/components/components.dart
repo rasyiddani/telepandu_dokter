@@ -6,6 +6,7 @@ part 'avatar_profile.dart';
 part 'button.dart';
 part 'card_pesan_cepat.dart';
 part 'card_profile_menu.dart';
+part 'card_profile.dart';
 part 'card_user_profile.dart';
 part 'card_item_cepat.dart';
 part 'chat_item.dart';

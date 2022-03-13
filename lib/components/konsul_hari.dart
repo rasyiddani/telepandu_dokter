@@ -56,7 +56,7 @@ class KonsulHariComponent extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.normal),
               ),
               Text(
-                  "${listDataQueue?.queuNow}/${listDataQueue?.queueTotal} Pasien",
+                  "${listDataQueue?.queu}/${listDataQueue?.queueTotal} Pasien",
                   style: CustomStyle.consultTextButton)
             ],
           )

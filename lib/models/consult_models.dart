@@ -1,38 +1,38 @@
 part of 'models.dart';
 
-class ListPatientModel {
+class ConsultModels {
   int? id;
   String? name;
   int? queueNumber;
   int? age;
   String? phone;
   String? gender;
-  int? queueTotal;
-  int? queuNow;
-  int? queu;
+  String? tokenRtc;
+  String? agoraAppId;
+  String? chanelName;
 
-  ListPatientModel({
+  ConsultModels({
     required this.id,
     required this.name,
     required this.queueNumber,
     required this.age,
     required this.phone,
     required this.gender,
-    required this.queueTotal,
-    required this.queuNow,
-    required this.queu,
+    required this.tokenRtc,
+    required this.agoraAppId,
+    required this.chanelName,
   });
 
-  ListPatientModel.fromJson(Map<String, dynamic> json) {
+  ConsultModels.fromJson(Map<String, dynamic> json) {
     id = json['consult_log_id'];
     name = json['name'];
     queueNumber = json['queue_number'];
     age = json['age'];
     phone = json['phone'];
     gender = json['sex'];
-    queueTotal = json['kuota'];
-    queuNow = json['antrian_saat_ini'];
-    queu = json['jumlah_antrian'];
+    tokenRtc = json['token'];
+    agoraAppId = json['agora_app_id'];
+    chanelName = json['channel_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,11 +41,11 @@ class ListPatientModel {
       'name': name,
       'queue_number': queueNumber,
       'age': age,
-      'phone' : phone,
+      'phone': phone,
       'sex': gender,
-      'kuota': queueTotal,
-      'antrian_saat_ini': queuNow,
-      'jumlah_antrian' : queu,
+      'token': tokenRtc,
+      'agora_app_id': agoraAppId,
+      'channel_name': chanelName,
     };
   }
 }

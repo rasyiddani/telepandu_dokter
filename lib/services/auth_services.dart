@@ -1,6 +1,8 @@
 part of 'services.dart';
 
 class AuthServices {
+  late SharedPreferences sharedPreferences;
+
   Future<UserModel> login({
     String? email,
     String? password,
@@ -88,5 +90,57 @@ class AuthServices {
     } else {
       throw Exception('Gagal Logout');
     }
+  }
+
+  Future<UserModel> getUserProfile() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'auth/user-profile');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+     if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['user'];
+      late UserModel user = UserModel.fromJson(data);
+      user.name = data['name'];
+      user.email = data['email'];
+
+      return user;
+    } else {
+      throw Exception('Gagal Get Data User Profile');
+    }
+  }
+
+  Future<ListPatientModel> getDataUser() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'auth/user-profile');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['user'];
+      late ListPatientModel profile = ListPatientModel.fromJson(data);
+      profile.name = data['name'];
+
+      return profile;
+    }
+    throw Exception('Gagal Dapatkan Data');
   }
 }

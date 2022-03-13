@@ -8,45 +8,54 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  bool statePage = true;
+  late bool isLoading = false;
+
+  @override
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<AuthProvider>(context, listen: false).getUserProfile();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: SafeArea(
           bottom: false,
-          child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: const [
-                  HeaderComponent(isBgWhite: true, title: ""),
-                  SizedBox(height: 2),
-                  AvatarProfileComponent(
-                      image: "assets/images/dummy_doctor.png"),
-                  SizedBox(height: 60),
-                  CardUserProfileComponent(
-                    title: "Nama",
-                    label: "Doktor Octopus",
-                  ),
-                  SizedBox(height: 16),
-                  CardUserProfileComponent(
-                    title: "SIP",
-                    label: "123456789",
-                  ),
-                  SizedBox(height: 16),
-                  CardUserProfileComponent(
-                    title: "Lokasi Praktek",
-                    label: "Klinik Bandung",
-                  ),
-                  SizedBox(height: 16),
-                  CardUserProfileComponent(
-                    title: "Email",
-                    label: "droctopus@imel.com",
-                  ),
-                  SizedBox(height: 36),
-                ],
-              ))),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: CardProfile(
+                    user: authProvider.profile,
+                  )),
+              Visibility(
+                  visible: isLoading,
+                  child: Container(
+                    color: CustomColor.mainColor.withOpacity(0.2),
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: const Center(
+                      child: LoadingCircle(),
+                    ),
+                  ))
+            ],
+          )),
     );
   }
 }

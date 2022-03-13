@@ -4,3 +4,4 @@ import 'package:telemedicine_doctor/services/services.dart';
 
 part 'auth_provider.dart';
 part 'list_patient.dart';
+part 'consult_provider.dart';

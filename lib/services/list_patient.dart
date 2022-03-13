@@ -18,10 +18,12 @@ class ListPatientServices {
       headers: headers,
     );
 
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       late ListPatientModel queue = ListPatientModel.fromJson(data);
-      queue.queuNow = data['antrian_saat_ini'];
+      queue.queu = data['jumlah_antrian'];
       queue.queueTotal = data['kuota'];
 
       return queue;
@@ -60,42 +62,12 @@ class ListPatientServices {
       return listToday;
     }
     if (response.statusCode == 400) {
-      Provider.of<AuthProvider>(context, listen: false).refreshToken();
-      Provider.of<ListPatientServices>(context, listen: false)
+      await Provider.of<AuthProvider>(context, listen: false).refreshToken();
+      await Provider.of<ListPatientServices>(context, listen: false)
           .getDataListToday(context);
       throw Exception('Token Refresh');
     } else {
       throw Exception('Gagal Dapatkan Data');
-    }
-  }
-
-  Future<ListPatientModel> acceptConsult({
-    int? id,
-  }) async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    var finalToken = sharedPreferences.getString("token");
-
-    var url = Uri.parse(baseUrl + 'terima-pasien-konsul');
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $finalToken',
-    };
-    var body = jsonEncode({
-      'consult_log_id': id,
-    });
-
-    var response = await http.post(
-      url,
-      headers: headers,
-      body: body,
-    );
-
-    if (response.statusCode == 202) {
-      var data = jsonDecode(response.body);
-
-      return data;
-    } else {
-      throw Exception('Gagal Aktivasi');
     }
   }
 }

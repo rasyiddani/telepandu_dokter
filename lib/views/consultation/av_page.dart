@@ -12,12 +12,14 @@ class AvPage extends StatefulWidget {
 class _AvPageState extends State<AvPage> {
   final String appId = '40d5d2002f3948dbb3f86c40d1562ffc'; //api
   final String tokenRtc =
-      '00640d5d2002f3948dbb3f86c40d1562ffcIABASQs7ICvpxktxieYSMYFwhZkniZWwk3PYqGlZYOt0jP96k10AAAAAEACEYx7An0kUYgEAAQCdSRRi'; //api refresh token
-  final String chanelNameRtc = 'videocalltelepandu'; //no telp pasien
+      '00640d5d2002f3948dbb3f86c40d1562ffcIABRzDhaTiJKH3MZ78Ylw8VlE9D6SVYKGzCu6pf+LYuc3O7kmlMAAAAAIgCnCQAApXgrYgQAAQA1NSpiAwA1NSpiAgA1NSpiBAA1NSpi'; //api refresh token
+  final String chanelNameRtc = '12345678901'; //no telp pasien
 
   int? _remoteUid;
   bool _localUserJoined = false;
   late RtcEngine _engine;
+  late bool video = true;
+  late bool mic = true;
 
   @override
   void initState() {
@@ -89,6 +91,37 @@ class _AvPageState extends State<AvPage> {
       );
     }
 
+    Future<void> quitVideoCall() async {
+      // Create RTC client instance
+      RtcEngineContext context = RtcEngineContext(appId);
+      var engine = await RtcEngine.createWithContext(context);
+      await engine.disableVideo();
+      await engine.disableAudio();
+      await engine.leaveChannel();
+    }
+
+    Future<void> switchVideo() async {
+      // Create RTC client instance
+      RtcEngineContext context = RtcEngineContext(appId);
+      var engine = await RtcEngine.createWithContext(context);
+      if (video) {
+        await engine.enableVideo();
+      } else {
+        await engine.disableVideo();
+      }
+    }
+
+    Future<void> switchAudio() async {
+      // Create RTC client instance
+      RtcEngineContext context = RtcEngineContext(appId);
+      var engine = await RtcEngine.createWithContext(context);
+      if (mic) {
+        await engine.enableAudio();
+      } else {
+        await engine.disableAudio();
+      }
+    }
+
     //widget bottom
     Widget bottomComponents() {
       return Align(
@@ -149,12 +182,16 @@ class _AvPageState extends State<AvPage> {
                     children: [
                       IconAvComponents(
                         icon: Icons.mic_rounded,
-                        onTap: () {},
+                        onTap: () {
+                          switchAudio();
+                        },
                       ),
                       const SizedBox(width: 20),
                       IconAvComponents(
                         icon: Icons.video_call,
-                        onTap: () {},
+                        onTap: () {
+                          switchVideo();
+                        },
                       ),
                       const SizedBox(width: 20),
                       IconAvComponents(
@@ -170,7 +207,10 @@ class _AvPageState extends State<AvPage> {
                     child: IconAvComponents(
                       icon: Icons.call_end,
                       isEndCall: true,
-                      onTap: () {},
+                      onTap: () {
+                        quitVideoCall();
+                        Navigator.pushNamed(context, '/follow_up');
+                      },
                     ),
                   )
                 ],

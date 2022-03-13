@@ -1,11 +1,13 @@
+// ignore_for_file: avoid_print
+
 part of 'providers.dart';
 
 class AuthProvider with ChangeNotifier {
-  late UserModel _user;
+  UserModel? _user;
 
-  UserModel get user => _user;
+  UserModel? get user => _user;
 
-  set user(UserModel user) {
+  set user(UserModel? user) {
     _user = user;
     notifyListeners();
   }
@@ -46,6 +48,28 @@ class AuthProvider with ChangeNotifier {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  /////////////////////////////////////////////////////////////
+
+  ListPatientModel? _profile;
+
+  ListPatientModel? get profile => _profile;
+
+  set profile(ListPatientModel? profile) {
+    _profile = profile;
+    notifyListeners();
+  }
+
+  Future<void> getUserProfile() async {
+    try {
+      ListPatientModel profile = await AuthServices().getDataUser();
+
+      _profile = profile;
+      
+    } catch (e) {
+      print(e);
     }
   }
 }

@@ -3,9 +3,11 @@ part of 'components.dart';
 class ListPatientComponent extends StatelessWidget {
   final ListPatientModel listToday;
   final bool isIndex0;
-  const ListPatientComponent(
-      {Key? key, this.isIndex0 = false, required this.listToday})
-      : super(key: key);
+  const ListPatientComponent({
+    Key? key,
+    this.isIndex0 = false,
+    required this.listToday,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
