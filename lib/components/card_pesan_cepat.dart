@@ -1,11 +1,8 @@
 part of 'components.dart';
 
 class CardPesanCepat extends StatelessWidget {
-  final String title;
-  final String desc;
-  final Function onTap;
-  const CardPesanCepat(
-      {Key? key, required this.title, required this.desc, required this.onTap})
+  final MessagesModels quickMessages;
+  const CardPesanCepat({Key? key, required this.quickMessages})
       : super(key: key);
 
   @override
@@ -14,7 +11,7 @@ class CardPesanCepat extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            onTap();
+            Navigator.pushNamed(context, '/edit_pesan_cepat');
           },
           child: Container(
             height: 130,
@@ -25,7 +22,7 @@ class CardPesanCepat extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  quickMessages.title.toString(),
                   style: CustomStyle.notifTitleText,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -34,7 +31,7 @@ class CardPesanCepat extends StatelessWidget {
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
                     text: TextSpan(
-                        text: desc,
+                        text: quickMessages.desc,
                         style: CustomStyle.notifTitleText
                             .copyWith(fontWeight: FontWeight.w400))),
               ],

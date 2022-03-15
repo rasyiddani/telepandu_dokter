@@ -58,6 +58,10 @@ class _ListPatientPageState extends State<ListPatientPage> {
                       return ListPatientComponent(
                         isIndex0: (index == 0) ? true : false,
                         listToday: item,
+                        ontappMulai: () {},
+                        ontappSkip: () {
+                          getApi();
+                        },
                       );
                     }).toList(),
                   ),

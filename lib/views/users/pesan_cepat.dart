@@ -8,8 +8,32 @@ class PesanCepatPage extends StatefulWidget {
 }
 
 class _PesanCepatPageState extends State<PesanCepatPage> {
+  late bool isLoading;
+
+  @override
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .getQuickMessages();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
+
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: SafeArea(
@@ -28,49 +52,20 @@ class _PesanCepatPageState extends State<PesanCepatPage> {
                 thickness: 5,
               ),
               Expanded(
-                child:
-                    ListView(physics: const BouncingScrollPhysics(), children: [
-                  CardPesanCepat(
-                    title: "Lorem Ipsum",
-                    desc:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra vehicula lectus sit amet fermentum. Suspendisse sagittis odio lacus, sed cursus tellus accumsan vitae. Maecenas vulputate nulla eu metus vestibulum euismod. Duis porta metus ut arcu bibendum mollis. Vivamus consequat erat felis, ",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/edit_pesan_cepat');
-                    },
-                  ),
-                  CardPesanCepat(
-                    title: "Lorem Ipsum",
-                    desc:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra vehicula lectus sit amet fermentum. Suspendisse sagittis odio lacus, sed cursus tellus accumsan vitae. Maecenas vulputate nulla eu metus vestibulum euismod. Duis porta metus ut arcu bibendum mollis. Vivamus consequat erat felis, ",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/edit_pesan_cepat');
-                    },
-                  ),
-                  CardPesanCepat(
-                    title: "Lorem Ipsum",
-                    desc:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra vehicula lectus sit amet fermentum. Suspendisse sagittis odio lacus, sed cursus tellus accumsan vitae. Maecenas vulputate nulla eu metus vestibulum euismod. Duis porta metus ut arcu bibendum mollis. Vivamus consequat erat felis, ",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/edit_pesan_cepat');
-                    },
-                  ),
-                  CardPesanCepat(
-                    title: "Lorem Ipsum",
-                    desc:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra vehicula lectus sit amet fermentum. Suspendisse sagittis odio lacus, sed cursus tellus accumsan vitae. Maecenas vulputate nulla eu metus vestibulum euismod. Duis porta metus ut arcu bibendum mollis. Vivamus consequat erat felis, ",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/edit_pesan_cepat');
-                    },
-                  ),
-                  CardPesanCepat(
-                    title: "Lorem Ipsum",
-                    desc:
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi viverra vehicula lectus sit amet fermentum. Suspendisse sagittis odio lacus, sed cursus tellus accumsan vitae. Maecenas vulputate nulla eu metus vestibulum euismod. Duis porta metus ut arcu bibendum mollis. Vivamus consequat erat felis, ",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/edit_pesan_cepat');
-                    },
-                  ),
-                ]),
+                child: isLoading
+                    ? ListView(
+                        children: const [
+                          CardPesanCepatSkeleton(),
+                          CardPesanCepatSkeleton(),
+                        ],
+                      )
+                    : ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: messagesProvider.quickMessages.map((item) {
+                          return CardPesanCepat(
+                            quickMessages: item,
+                          );
+                        }).toList()),
               ),
             ],
           )),

@@ -17,19 +17,19 @@ class CardProfile extends StatelessWidget {
           label: "${user?.name}",
         ),
         const SizedBox(height: 16),
-        const CardUserProfileComponent(
+        CardUserProfileComponent(
           title: "SIP",
-          label: "123456789",
+          label: "${user?.sip}",
         ),
         const SizedBox(height: 16),
-        const CardUserProfileComponent(
+        CardUserProfileComponent(
           title: "Lokasi Praktek",
-          label: "Klinik Bandung",
+          label: "${user?.branch}",
         ),
         const SizedBox(height: 16),
         CardUserProfileComponent(
           title: "Email",
-          label: "${user?.name}",
+          label: "${user?.email}",
         ),
         const SizedBox(height: 36),
       ],

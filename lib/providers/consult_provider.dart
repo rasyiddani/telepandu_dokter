@@ -21,6 +21,39 @@ class ConsultProviders with ChangeNotifier {
     }
   }
 
+  /////////////////////////////////////////////////////////////////////
+  
+   ConsultModels? _skip;
+
+  ConsultModels? get skip => _skip;
+
+  set skip(ConsultModels? skip) {
+    _skip = skip;
+    notifyListeners();
+  }
+
+  Future<bool> skipQueue(id) async {
+    try {
+      ConsultModels skip = await ConsultServices().skipQueue(id);
+
+      _skip = skip;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> makeWaitIntructions(id) async {
+    try {
+      ConsultModels accept = await ConsultServices().makeWaitIntructions(id);
+
+      _accept = accept;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
   ConsultModels? _end;
@@ -34,7 +67,7 @@ class ConsultProviders with ChangeNotifier {
 
   Future<bool> endConsult(id) async {
     try {
-      ConsultModels end = await ConsultServices().acceptConsult(id);
+      ConsultModels end = await ConsultServices().endConsult(id);
 
       _end = end;
       return true;
@@ -54,11 +87,23 @@ class ConsultProviders with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> makeInstructions(id, instructions, diseases,
-      needMedicalCertificate, needReferralLetter) async {
+  Future<bool> makeInstructions(id, instructions, diseases, butuhTesLab,
+      resepObat, suratKeterangan, rujukanBpjs, date) async {
     try {
-      ConsultModels instruction = await ConsultServices().makeInstructions(id,
-          instructions, diseases, needMedicalCertificate, needReferralLetter);
+      ConsultModels instruction = await ConsultServices().makeInstructions(
+          id,
+          instructions,
+          diseases,
+          butuhTesLab,
+          resepObat,
+          suratKeterangan,
+          rujukanBpjs,
+          date);
+
+          print(id);
+          print(diseases);
+          print(diseases);
+          print(date);
 
       _instruction = instruction;
       return true;

@@ -1,7 +1,10 @@
 part of '../views.dart';
 
 class AvPage extends StatefulWidget {
-  const AvPage({Key? key}) : super(key: key);
+  final String namePasien;
+  final int id;
+  const AvPage({Key? key, required this.namePasien, required this.id})
+      : super(key: key);
 
   @override
   _AvPageState createState() => _AvPageState();
@@ -10,10 +13,9 @@ class AvPage extends StatefulWidget {
 //http://telemedicine-test.akunku.co/api/log-konsul/{id}
 
 class _AvPageState extends State<AvPage> {
-  final String appId = '40d5d2002f3948dbb3f86c40d1562ffc'; //api
-  final String tokenRtc =
-      '00640d5d2002f3948dbb3f86c40d1562ffcIABRzDhaTiJKH3MZ78Ylw8VlE9D6SVYKGzCu6pf+LYuc3O7kmlMAAAAAIgCnCQAApXgrYgQAAQA1NSpiAwA1NSpiAgA1NSpiBAA1NSpi'; //api refresh token
-  final String chanelNameRtc = '12345678901'; //no telp pasien
+  late String appId = ''; //api
+  late String tokenRtc = ''; //api refresh token
+  late String chanelNameRtc = ''; //no telp pasien
 
   int? _remoteUid;
   bool _localUserJoined = false;
@@ -21,10 +23,30 @@ class _AvPageState extends State<AvPage> {
   late bool video = true;
   late bool mic = true;
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    initAgora();
+    getApi();
+    // initAgora();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    if (await Provider.of<ConsultProviders>(context, listen: false)
+        .acceptConsult(widget.id)) {
+      print("berhasil");
+    } else {
+      print("gagal");
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<void> initAgora() async {
@@ -75,6 +97,14 @@ class _AvPageState extends State<AvPage> {
 
   @override
   Widget build(BuildContext context) {
+    ConsultProviders consultProviders = Provider.of<ConsultProviders>(context);
+
+    setState(() {
+      appId = '${consultProviders.accept?.agoraAppId}';
+      tokenRtc = '${consultProviders.accept?.tokenRtc}';
+      chanelNameRtc = '${consultProviders.accept?.chanelName}';
+    });
+
     //widget local view
     Widget localViewRtc() {
       return Align(
@@ -122,6 +152,31 @@ class _AvPageState extends State<AvPage> {
       }
     }
 
+    //widget popup
+    Widget popupMessage() {
+      return AlertDialog(
+        content: const Text("Apakah anda yakin mengakhiri sesi?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              quitVideoCall();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FollowUpPage(id: widget.id),
+                  ));
+              // Navigator.pushNamed(context, '/follow_up');
+            },
+            child: const Text('Ya'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Batal'),
+          ),
+        ],
+      );
+    }
+
     //widget bottom
     Widget bottomComponents() {
       return Align(
@@ -158,22 +213,14 @@ class _AvPageState extends State<AvPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Text(
-                      "Name Doctor",
+                      widget.namePasien,
                       style: CustomStyle.consultTitleText.copyWith(
-                          color: CustomColor.light4Color,
+                          // color: CustomColor.light4Color,
+                          color: Colors.red,
                           fontSize: Dimensions.heading4TextSize),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "Role Doctor",
-                      style: CustomStyle.consultTitleText.copyWith(
-                          color: CustomColor.light4Color,
-                          fontSize: Dimensions.heading5TextSize,
-                          fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(height: 37),
@@ -181,15 +228,21 @@ class _AvPageState extends State<AvPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconAvComponents(
-                        icon: Icons.mic_rounded,
+                        icon: mic ? Icons.mic_rounded : Icons.mic_off_outlined,
                         onTap: () {
+                          setState(() {
+                            mic = !mic;
+                          });
                           switchAudio();
                         },
                       ),
                       const SizedBox(width: 20),
                       IconAvComponents(
-                        icon: Icons.video_call,
+                        icon: video ? Icons.video_call : Icons.videocam_off,
                         onTap: () {
+                          setState(() {
+                            video = !video;
+                          });
                           switchVideo();
                         },
                       ),
@@ -202,17 +255,35 @@ class _AvPageState extends State<AvPage> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: IconAvComponents(
-                      icon: Icons.call_end,
-                      isEndCall: true,
-                      onTap: () {
-                        quitVideoCall();
-                        Navigator.pushNamed(context, '/follow_up');
-                      },
-                    ),
-                  )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconAvComponents(
+                        icon: Icons.add_to_home_screen,
+                        onTap: () async {
+                          await Provider.of<ConsultProviders>(context,
+                                  listen: false)
+                              .skipQueue(widget.id);
+
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              '/list_patient', (Route<dynamic> route) => false);
+                        },
+                      ),
+                      const SizedBox(width: 20),
+                      IconAvComponents(
+                        icon: Icons.call_end,
+                        isEndCall: true,
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  popupMessage());
+                          // quitVideoCall();
+                          // Navigator.pushNamed(context, '/follow_up');
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

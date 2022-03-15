@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:telemedicine_doctor/models/models.dart';
+import 'package:telemedicine_doctor/providers/providers.dart';
 import 'package:telemedicine_doctor/utils/utils.dart';
+import 'package:telemedicine_doctor/views/views.dart';
 
 part 'avatar_profile.dart';
 part 'button.dart';
@@ -20,3 +23,4 @@ part 'list_month.dart';
 part 'loading_circle.dart';
 part './skeleton/card_hari_ini.dart';
 part './skeleton/list_hari_ini.dart';
+part './skeleton/card_pesan_cepat.dart';

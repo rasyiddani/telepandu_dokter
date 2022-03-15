@@ -3,7 +3,7 @@ part of 'services.dart';
 class MessagesServices {
   late SharedPreferences sharedPreferences;
 
-  Future<List<ListPatientModel>> getQuickMessages(context) async {
+  Future<List<MessagesModels>> getQuickMessages() async {
     sharedPreferences = await SharedPreferences.getInstance();
     var finalToken = sharedPreferences.getString("token");
 
@@ -19,13 +19,13 @@ class MessagesServices {
     );
 
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)['antrian'];
-      List<ListPatientModel> listQuickMessages = [];
+      List data = jsonDecode(response.body)['quick_messages'];
+      List<MessagesModels> quickMessages = [];
       for (var item in data) {
-        listQuickMessages.add(ListPatientModel.fromJson(item));
+        quickMessages.add(MessagesModels.fromJson(item));
       }
 
-      return listQuickMessages;
+      return quickMessages;
     } else {
       throw Exception('Gagal Dapatkan Data');
     }

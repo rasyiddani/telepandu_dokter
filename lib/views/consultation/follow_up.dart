@@ -1,7 +1,8 @@
 part of '../views.dart';
 
 class FollowUpPage extends StatefulWidget {
-  const FollowUpPage({Key? key}) : super(key: key);
+  final int id;
+  const FollowUpPage({Key? key, required this.id}) : super(key: key);
 
   @override
   _FollowUpPageState createState() => _FollowUpPageState();
@@ -9,8 +10,10 @@ class FollowUpPage extends StatefulWidget {
 
 class _FollowUpPageState extends State<FollowUpPage> {
   TextEditingController intruksiController = TextEditingController();
+  TextEditingController edukasiPersonalController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   bool isChooseDate = false;
+  bool isLoading = false;
 
   Map<String, bool> listItem = {
     'Resep Obat': false,
@@ -28,6 +31,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
         holder_1.add(key);
       }
     });
+
+    print(listItem);
 
     //set value for using in state
     final foundTestLabData = holder_1.where((e) => e == "Butuh Test Lab");
@@ -219,6 +224,30 @@ class _FollowUpPageState extends State<FollowUpPage> {
     );
   }
 
+  Future kirimHandler() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<ConsultProviders>(context, listen: false)
+        .makeInstructions(
+            widget.id,
+            intruksiController.text,
+            edukasiPersonalController.text,
+            false,
+            false,
+            false,
+            false,
+            selectedDate);
+
+    await Provider.of<ConsultProviders>(context, listen: false)
+        .endConsult(widget.id);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,7 +276,11 @@ class _FollowUpPageState extends State<FollowUpPage> {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35),
               child: ButtonComponent(
-                  title: "Kirim", isGreen: true, onPress: () {})),
+                  title: "Kirim",
+                  isGreen: true,
+                  onPress: () {
+                    kirimHandler();
+                  })),
           const SizedBox(height: 60),
         ],
       )),

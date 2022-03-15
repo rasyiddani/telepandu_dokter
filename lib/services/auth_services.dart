@@ -137,7 +137,6 @@ class AuthServices {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['user'];
       late ListPatientModel profile = ListPatientModel.fromJson(data);
-      profile.name = data['name'];
 
       return profile;
     }

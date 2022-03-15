@@ -23,13 +23,15 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print(response.statusCode);
+
+    print('${response.statusCode} terima konsul');
 
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
       print(data);
+      late ConsultModels accept = ConsultModels.fromJson(data);
 
-      return data;
+      return accept;
     } else {
       throw Exception('Gagal Aktivasi');
     }
@@ -55,7 +57,7 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print(response.statusCode);
+    print('${response.statusCode} tolak api');
 
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
@@ -67,27 +69,97 @@ class ConsultServices {
     }
   }
 
-   Future<ConsultModels> makeInstructions(
+  Future<ConsultModels> skipQueue(int id) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'skip-pasien');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var body = jsonEncode({
+      'consult_log_id': id,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      late ConsultModels skip = ConsultModels.fromJson(data);
+
+      return skip;
+    } else {
+      throw Exception('Gagal Skip Queue');
+    }
+  }
+
+  Future<ConsultModels> makeWaitIntructions(int id) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'buat-pasien-menunggu-instruksi');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var body = jsonEncode({
+      'consult_log_id': id,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      print(data);
+
+      return data;
+    } else {
+      throw Exception('Gagal Make Wait Consult');
+    }
+  }
+
+  Future<ConsultModels> makeInstructions(
     int? id,
     String? instructions,
     Array? diseases,
-    bool? needMedicalCertificate,
-    bool? needReferralLetter,
+    bool? butuhTesLab,
+    bool? resepObat,
+    bool? suratKeterangan,
+    bool? rujukanBpjs,
+    String? date,
   ) async {
     sharedPreferences = await SharedPreferences.getInstance();
     var finalToken = sharedPreferences.getString("token");
 
-    var url = Uri.parse(baseUrl + 'buat-instruksi-dokter');
+    var url = Uri.parse(baseUrl + 'check-list-dokter');
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $finalToken',
     };
     var body = jsonEncode({
       'consult_log_id': id,
-      'instruction': instructions,
       'diseases': [diseases],
-      'need_medical_certificate ': needMedicalCertificate,
-      'need_referral_letter ': needReferralLetter 
+      'instruction': instructions,
+      'butuh_tes_lab': butuhTesLab,
+      'resep_obat': resepObat,
+      'surat_keterangan': suratKeterangan,
+      'rujukan_bpjs': rujukanBpjs,
+      'date': date,
     });
 
     var response = await http.post(

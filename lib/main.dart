@@ -17,6 +17,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ListPatientProvider(context)),
+        ChangeNotifierProvider(create: (context) => ConsultProviders()),
+        ChangeNotifierProvider(create: (context) => MessagesProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -36,9 +38,9 @@ class MyApp extends StatelessWidget {
             '/notification': (context) => const NotificationPage(),
             '/list_patient': (context) => const ListPatientPage(),
             '/list_month': (context) => const ListMonthPage(),
-            '/av_page': (context) => const AvPage(),
+            '/av_page': (context) => const AvPage(id: 0, namePasien: "namaPasien",),
             '/chat_page': (context) => const ChatPage(),
-            '/follow_up': (context) => const FollowUpPage(),
+            '/follow_up': (context) => const FollowUpPage(id: 0),
           }),
     );
   }
