@@ -30,4 +30,37 @@ class MessagesServices {
       throw Exception('Gagal Dapatkan Data');
     }
   }
+
+  Future<MessagesModels> addQuickMessage({
+    String? title,
+    String? desc,
+  }) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'quick-message');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'title': title,
+      'detail': desc,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      MessagesModels addQuick = MessagesModels.fromJson(data);
+
+      return addQuick;
+    } else {
+      throw Exception('Gagal Login');
+    }
+  }
 }

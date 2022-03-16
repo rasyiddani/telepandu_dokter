@@ -23,7 +23,15 @@ class _FollowUpPageState extends State<FollowUpPage> {
   };
 
   var holder_1 = [];
+  var foundResepObat = "";
+  var foundRujukan = "";
+  var foundSuratKeterangan = "";
   var foundTestLab = "";
+
+  bool resepObatValue = false;
+  bool rujukanBpjsValue = false;
+  bool suratKeteranganValue = false;
+  bool testLabValue = false;
 
   getItems() {
     listItem.forEach((key, value) {
@@ -32,13 +40,55 @@ class _FollowUpPageState extends State<FollowUpPage> {
       }
     });
 
-    print(listItem);
-
     //set value for using in state
     final foundTestLabData = holder_1.where((e) => e == "Butuh Test Lab");
     setState(() {
       foundTestLab = foundTestLabData.isNotEmpty ? foundTestLabData.first : "";
     });
+    if (foundTestLab == "Butuh Test Lab") {
+      testLabValue = true;
+    } else {
+      testLabValue = false;
+    }
+
+    //set value resep obat
+    final foundResepData = holder_1.where((e) => e == "Resep Obat");
+    setState(() {
+      foundResepObat = foundResepData.isNotEmpty ? foundResepData.first : "";
+    });
+    if (foundResepObat == "Resep Obat") {
+      resepObatValue = true;
+    } else {
+      resepObatValue = false;
+    }
+
+    //set value rujukan data
+    final foundRujukanData = holder_1.where((e) => e == "Rujukan BPJS");
+    setState(() {
+      foundRujukan = foundRujukanData.isNotEmpty ? foundRujukanData.first : "";
+    });
+    if (foundRujukan == "Rujukan BPJS") {
+      rujukanBpjsValue = true;
+    } else {
+      rujukanBpjsValue = false;
+    }
+
+    //set value surat keterangan
+    final foundSuratData = holder_1.where((e) => e == "Surat Keterangan");
+    setState(() {
+      foundSuratKeterangan =
+          foundSuratData.isNotEmpty ? foundSuratData.first : "";
+    });
+    if (foundSuratKeterangan == "Surat Keterangan") {
+      suratKeteranganValue = true;
+    } else {
+      suratKeteranganValue = false;
+    }
+
+    print("resep obat : ${resepObatValue}");
+    print("rujukan : ${rujukanBpjsValue}");
+    print("surat : ${suratKeteranganValue}");
+    print("test lab : ${testLabValue}");
 
     // Clear array after use.
     holder_1.clear();
@@ -186,7 +236,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
       child: Column(
         children: [
           TextFormField(
-            controller: intruksiController,
+            controller: edukasiPersonalController,
             keyboardType: TextInputType.text,
             decoration: CustomStyle.textInputCustom.copyWith(
               hintText: "Type something",
@@ -233,12 +283,12 @@ class _FollowUpPageState extends State<FollowUpPage> {
         .makeInstructions(
             widget.id,
             intruksiController.text,
-            edukasiPersonalController.text,
-            false,
-            false,
-            false,
-            false,
-            selectedDate);
+            edukasiPersonalController.text.split(','),
+            resepObatValue,
+            rujukanBpjsValue,
+            suratKeteranganValue,
+            testLabValue,
+            selectedDate.toLocal().toString());
 
     await Provider.of<ConsultProviders>(context, listen: false)
         .endConsult(widget.id);
@@ -252,38 +302,53 @@ class _FollowUpPageState extends State<FollowUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
-      body: SafeArea(
-          child: ListView(
+      body: Stack(
         children: [
-          header(),
-          chooseItem(),
-          const SizedBox(height: 25),
-          textBox(),
-          const SizedBox(height: 20),
-          intruksiCepat(),
-          const SizedBox(height: 20),
-          Padding(
-              padding: const EdgeInsets.only(left: 35),
-              child: Text(
-                "Edukasi Personal",
-                style: CustomStyle.notifHeaderText,
-              )),
-          const SizedBox(height: 20),
-          edukasiPersonal(),
-          const SizedBox(height: 20),
-          itemEdukasi(),
-          const SizedBox(height: 60),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: ButtonComponent(
-                  title: "Kirim",
-                  isGreen: true,
-                  onPress: () {
-                    kirimHandler();
-                  })),
-          const SizedBox(height: 60),
+          SafeArea(
+              child: ListView(
+            children: [
+              header(),
+              chooseItem(),
+              const SizedBox(height: 25),
+              textBox(),
+              const SizedBox(height: 20),
+              intruksiCepat(),
+              const SizedBox(height: 20),
+              Padding(
+                  padding: const EdgeInsets.only(left: 35),
+                  child: Text(
+                    "Edukasi Personal",
+                    style: CustomStyle.notifHeaderText,
+                  )),
+              const SizedBox(height: 20),
+              edukasiPersonal(),
+              const SizedBox(height: 20),
+              itemEdukasi(),
+              const SizedBox(height: 60),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 35),
+                  child: ButtonComponent(
+                      title: "Kirim",
+                      isGreen: true,
+                      onPress: () {
+                        kirimHandler();
+                        Navigator.pushNamed(context, '/dashboard');
+                      })),
+              const SizedBox(height: 60),
+            ],
+          )),
+          Visibility(
+              visible: isLoading,
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                height: double.infinity,
+                width: double.infinity,
+                child: const Center(
+                  child: LoadingCircle(),
+                ),
+              ))
         ],
-      )),
+      ),
     );
   }
 }

@@ -22,8 +22,8 @@ class ConsultProviders with ChangeNotifier {
   }
 
   /////////////////////////////////////////////////////////////////////
-  
-   ConsultModels? _skip;
+
+  ConsultModels? _skip;
 
   ConsultModels? get skip => _skip;
 
@@ -87,9 +87,18 @@ class ConsultProviders with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> makeInstructions(id, instructions, diseases, butuhTesLab,
-      resepObat, suratKeterangan, rujukanBpjs, date) async {
+  Future<bool> makeInstructions(
+      int? id,
+      String? instructions,
+      List? diseases,
+      bool? butuhTesLab,
+      bool? resepObat,
+      bool? suratKeterangan,
+      bool? rujukanBpjs,
+      String? date) async {
     try {
+      print(id);
+      print(butuhTesLab);
       ConsultModels instruction = await ConsultServices().makeInstructions(
           id,
           instructions,
@@ -99,11 +108,6 @@ class ConsultProviders with ChangeNotifier {
           suratKeterangan,
           rujukanBpjs,
           date);
-
-          print(id);
-          print(diseases);
-          print(diseases);
-          print(date);
 
       _instruction = instruction;
       return true;

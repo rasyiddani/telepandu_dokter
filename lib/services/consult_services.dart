@@ -57,7 +57,7 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print('${response.statusCode} tolak api');
+    print('${response.statusCode} konsul selesai');
 
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
@@ -136,7 +136,7 @@ class ConsultServices {
   Future<ConsultModels> makeInstructions(
     int? id,
     String? instructions,
-    Array? diseases,
+    List? diseases,
     bool? butuhTesLab,
     bool? resepObat,
     bool? suratKeterangan,
@@ -153,7 +153,7 @@ class ConsultServices {
     };
     var body = jsonEncode({
       'consult_log_id': id,
-      'diseases': [diseases],
+      'diseases': diseases,
       'instruction': instructions,
       'butuh_tes_lab': butuhTesLab,
       'resep_obat': resepObat,
@@ -167,9 +167,9 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print(response.statusCode);
+    print("status buat intruksi: ${response.statusCode}");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       var data = jsonDecode(response.body);
       print(data);
 
