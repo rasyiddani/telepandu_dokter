@@ -332,7 +332,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
                       isGreen: true,
                       onPress: () {
                         kirimHandler();
-                        Navigator.pushNamed(context, '/dashboard');
+                        Navigator.pushNamed(context, '/loading_success');
                       })),
               const SizedBox(height: 60),
             ],

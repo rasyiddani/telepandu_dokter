@@ -29,7 +29,7 @@ class _AvPageState extends State<AvPage> {
   void initState() {
     super.initState();
     getApi();
-    // initAgora();
+    initAgora();
   }
 
   getApi() async {
@@ -160,7 +160,8 @@ class _AvPageState extends State<AvPage> {
           TextButton(
             onPressed: () {
               quitVideoCall();
-              Provider.of<ConsultProviders>(context).followUpConsult(widget.id);
+              Provider.of<ConsultProviders>(context, listen: false)
+                  .followUpConsult(widget.id);
               Navigator.push(
                   context,
                   MaterialPageRoute(

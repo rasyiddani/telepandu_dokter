@@ -21,7 +21,7 @@ class LoadingSuccess extends StatelessWidget {
           ElevatedButton(
               style: ElevatedButton.styleFrom(primary: CustomColor.mainColor),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/loading_success');
+                Navigator.pushReplacementNamed(context, '/dashboard');
               },
               child: Text(
                 "Kembali ke Dashboard",
