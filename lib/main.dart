@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
             '/av_page': (context) => const AvPage(id: 0, namePasien: "namaPasien",),
             '/chat_page': (context) => const ChatPage(),
             '/follow_up': (context) => const FollowUpPage(id: 0),
+            '/loading_success': (context) => const LoadingSuccess(),
           }),
     );
   }

@@ -33,3 +33,4 @@ part './consultation/list_month.dart';
 part './consultation/av_page.dart';
 part './consultation/chat_page.dart';
 part './consultation/follow_up.dart';
+part './consultation/loading_success.dart';
