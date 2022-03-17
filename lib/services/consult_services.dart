@@ -37,6 +37,36 @@ class ConsultServices {
     }
   }
 
+  Future<void> followUpConsult(
+    int? id,
+  ) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'buat-pasien-menunggu-instruksi');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'consult_log_id': id,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+    print('${response.statusCode} lanjut follow up');
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+    } else {
+      throw Exception('Gagal Follow Up Consult');
+    }
+  }
+
   Future<ConsultModels> endConsult(
     int? id,
   ) async {

@@ -56,6 +56,19 @@ class ConsultProviders with ChangeNotifier {
 
   //////////////////////////////////////////////////////////////////////////////
 
+
+  Future<bool> followUpConsult(id) async {
+    try {
+      await ConsultServices().followUpConsult(id);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
   ConsultModels? _end;
 
   ConsultModels? get end => _end;
