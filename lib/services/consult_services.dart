@@ -185,10 +185,10 @@ class ConsultServices {
       'consult_log_id': id,
       'diseases': diseases,
       'instruction': instructions,
-      'butuh_tes_lab': butuhTesLab,
-      'resep_obat': resepObat,
-      'surat_keterangan': suratKeterangan,
-      'rujukan_bpjs': rujukanBpjs,
+      butuhTesLab == true ? 'butuh_tes_lab': butuhTesLab : null,
+      resepObat == true ? 'resep_obat': resepObat : null,
+      suratKeterangan == true ? 'surat_keterangan': suratKeterangan : null,
+      rujukanBpjs == true ? 'rujukan_bpjs': rujukanBpjs : null,
       'date': date,
     });
 

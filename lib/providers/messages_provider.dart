@@ -16,35 +16,45 @@ class MessagesProvider with ChangeNotifier {
 
       _quickMessages = quickMessages;
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 
   //////////////////////////////////////////////////////////////////////
-
-  MessagesModels? _addQuick;
-
-  MessagesModels? get addQuick => _addQuick;
-
-  set addQuick(MessagesModels? addQuick) {
-    _addQuick = addQuick;
-    notifyListeners();
-  }
 
   Future<bool> addQuickMessage({
     String? title,
     String? desc,
   }) async {
     try {
-      MessagesModels addQuick = await MessagesServices().addQuickMessage(
+      await MessagesServices().addQuickMessage(
         title: title,
         desc: desc,
       );
 
-      _addQuick = addQuick;
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  MessagesModels? _dataQuickMessage;
+
+  MessagesModels? get dataQuickMessage => _dataQuickMessage;
+
+  set dataQuickMessage(MessagesModels? dataQuickMessage) {
+    _dataQuickMessage = dataQuickMessage;
+    notifyListeners();
+  }
+
+  Future<void> getUserProfile(id) async {
+    try {
+      MessagesModels dataQuickMessage =
+          await MessagesServices().getDataQuickMessage(id);
+
+      _dataQuickMessage = dataQuickMessage;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

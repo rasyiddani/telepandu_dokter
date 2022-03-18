@@ -158,9 +158,9 @@ class _AvPageState extends State<AvPage> {
         content: const Text("Apakah anda yakin mengakhiri sesi?"),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               quitVideoCall();
-              Provider.of<ConsultProviders>(context, listen: false)
+              await Provider.of<ConsultProviders>(context, listen: false)
                   .followUpConsult(widget.id);
               Navigator.push(
                   context,

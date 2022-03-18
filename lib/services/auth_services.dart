@@ -92,33 +92,6 @@ class AuthServices {
     }
   }
 
-  Future<UserModel> getUserProfile() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var finalToken = sharedPreferences.getString("token");
-
-    var url = Uri.parse(baseUrl + 'auth/user-profile');
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $finalToken',
-    };
-
-    var response = await http.get(
-      url,
-      headers: headers,
-    );
-
-     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body)['user'];
-      late UserModel user = UserModel.fromJson(data);
-      user.name = data['name'];
-      user.email = data['email'];
-
-      return user;
-    } else {
-      throw Exception('Gagal Get Data User Profile');
-    }
-  }
-
   Future<ListPatientModel> getDataUser() async {
     sharedPreferences = await SharedPreferences.getInstance();
     var finalToken = sharedPreferences.getString("token");

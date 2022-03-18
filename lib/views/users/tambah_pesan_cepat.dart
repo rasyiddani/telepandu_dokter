@@ -10,35 +10,57 @@ class TambahPesanCepatPage extends StatefulWidget {
 }
 
 class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descController = TextEditingController();
+  TextEditingController? titleController = TextEditingController();
+  TextEditingController? descController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
-  void dispose() {
-    super.dispose();
-    titleController.dispose();
-    descController.dispose();
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .getQuickMessages();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  tambahHandler(title, desc) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    if (await Provider.of<MessagesProvider>(context, listen: false)
+        .addQuickMessage(title: title, desc: desc)) {
+      Navigator.pushReplacementNamed(context, '/pesan_cepat');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+          content:
+              Text("Maaf Tidak Dapat Menambah Data, Ada Masalah Pada Server"),
+        ),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    //handler tambah
-    tambahHandler(title, desc) async {
-      setState(() {
-        isLoading = true;
-      });
-
-      await Provider.of<MessagesProvider>(context)
-          .addQuickMessage(title: title, desc: desc);
-
-      setState(() {
-        isLoading = false;
-      });
-    }
-
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: Stack(
@@ -52,11 +74,10 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
                           title: "",
                           titleButton: "Tambah",
                           onTap: () {
-                            tambahHandler(
-                                titleController.text, descController.text);
-
-                            Navigator.pushReplacementNamed(
-                                context, '/pesan_cepat');
+                            if (_formKey.currentState!.validate()) {
+                              tambahHandler(
+                                  titleController?.text, descController?.text);
+                            }
                           },
                         )
                       : HeaderWithButton(
@@ -144,5 +165,12 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    titleController?.dispose();
+    descController?.dispose();
   }
 }
