@@ -189,7 +189,7 @@ class ConsultServices {
       resepObat == true ? 'resep_obat': resepObat : null,
       suratKeterangan == true ? 'surat_keterangan': suratKeterangan : null,
       rujukanBpjs == true ? 'rujukan_bpjs': rujukanBpjs : null,
-      'date': date,
+      rujukanBpjs == true ? 'date': date : null,
     });
 
     var response = await http.post(
@@ -197,7 +197,7 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print("status buat intruksi: ${response.statusCode}");
+    print("status buat intruksi: $body");
 
     if (response.statusCode == 201) {
       var data = jsonDecode(response.body);

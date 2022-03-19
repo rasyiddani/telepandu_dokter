@@ -16,7 +16,7 @@ class LoadingSuccess extends StatelessWidget {
                   fontFamily: 'Lexend',
                   fontSize: Dimensions.heading2TextSize,
                   fontWeight: FontWeight.w700)),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Lottie.asset('assets/animations/checked_animation.json'),
           ElevatedButton(
               style: ElevatedButton.styleFrom(primary: CustomColor.mainColor),

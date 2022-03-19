@@ -79,12 +79,53 @@ class MessagesServices {
       headers: headers,
     );
 
+    print(id);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
+      print(data);
       late MessagesModels dataQuickMessage = MessagesModels.fromJson(data);
 
       return dataQuickMessage;
     }
     throw Exception('Gagal Dapatkan Data');
+  }
+
+   Future<MessagesModels> editQuickMessage({
+    String? title,
+    String? desc,
+    int? id,
+  }) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'quick-message/$id');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'title': title,
+      'detail': desc,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    print(response.statusCode);
+    print(body);
+
+    if (response.statusCode == 202) {
+      var data = jsonDecode(response.body);
+      print(data);
+      MessagesModels editQuick = MessagesModels.fromJson(data);
+
+      return editQuick;
+    } else {
+      throw Exception('Gagal Tambah Data');
+    }
   }
 }

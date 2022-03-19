@@ -85,10 +85,10 @@ class _FollowUpPageState extends State<FollowUpPage> {
       suratKeteranganValue = false;
     }
 
-    print("resep obat : ${resepObatValue}");
-    print("rujukan : ${rujukanBpjsValue}");
-    print("surat : ${suratKeteranganValue}");
-    print("test lab : ${testLabValue}");
+    print("resep obat : $resepObatValue");
+    print("rujukan : $rujukanBpjsValue");
+    print("surat : $suratKeteranganValue");
+    print("test lab : $testLabValue");
 
     // Clear array after use.
     holder_1.clear();

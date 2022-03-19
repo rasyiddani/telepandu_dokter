@@ -1,7 +1,7 @@
 part of 'models.dart';
 
 class MessagesModels {
-  int? id;
+  late int id;
   String? title;
   String? desc;
 

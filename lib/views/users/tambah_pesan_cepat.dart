@@ -2,7 +2,8 @@ part of '../views.dart';
 
 class TambahPesanCepatPage extends StatefulWidget {
   final bool isTambah;
-  const TambahPesanCepatPage({Key? key, this.isTambah = true})
+  final int id;
+  const TambahPesanCepatPage({Key? key, this.isTambah = true, this.id = 0})
       : super(key: key);
 
   @override
@@ -11,13 +12,14 @@ class TambahPesanCepatPage extends StatefulWidget {
 
 class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
   TextEditingController? titleController = TextEditingController();
+
   TextEditingController? descController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
   void initState() {
-    getApi();
+    widget.isTambah ? null : getApi();
 
     super.initState();
   }
@@ -28,7 +30,7 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
     });
 
     await Provider.of<MessagesProvider>(context, listen: false)
-        .getQuickMessages();
+        .getDataQuickMessage(widget.id);
 
     setState(() {
       isLoading = false;
@@ -59,8 +61,28 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
     });
   }
 
+  editHandler(title, desc, id) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .editQuickMessage(title: title, desc: desc, id: id);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
+
+    titleController?.text =
+        widget.isTambah ? "" : "${messagesProvider.dataQuickMessage?.title}";
+    descController?.text =
+        widget.isTambah ? "" : "${messagesProvider.dataQuickMessage?.desc}";
+
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: Stack(
@@ -83,7 +105,14 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
                       : HeaderWithButton(
                           title: "",
                           titleButton: "Edit",
-                          onTap: () {},
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              editHandler(titleController?.text,
+                                  descController?.text, widget.id);
+                              Navigator.pushReplacementNamed(
+                                  context, '/pesan_cepat');
+                            }
+                          },
                         ),
                   const SizedBox(height: 13),
                   Form(

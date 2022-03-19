@@ -22,23 +22,6 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
 
   @override
   Widget build(BuildContext context) {
-    //handler
-    Future mulaiHandler(id) async {
-      if (await Provider.of<ConsultProviders>(context, listen: false)
-          .acceptConsult(id)) {
-        // Navigator.pushNamed(context, '/av_page');
-        print("berhasil");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            content: Text("Tidak Dapat Memulai Sesi"),
-          ),
-        );
-      }
-    }
-
     Future skipHandler(id) async {
       if (await Provider.of<ConsultProviders>(context, listen: false)
           .skipQueue(id)) {

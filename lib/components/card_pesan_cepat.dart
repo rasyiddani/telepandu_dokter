@@ -11,7 +11,12 @@ class CardPesanCepat extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            Navigator.pushNamed(context, '/edit_pesan_cepat');
+             Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TambahPesanCepatPage(isTambah: false, id: quickMessages.id),
+                  ));
           },
           child: Container(
             height: 130,

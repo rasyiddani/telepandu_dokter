@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
             '/jadwal_profile': (context) => const JadwalProfilePage(),
             '/pesan_cepat': (context) => const PesanCepatPage(),
             '/tambah_pesan_cepat': (context) => const TambahPesanCepatPage(),
-            '/edit_pesan_cepat': (context) => const TambahPesanCepatPage(isTambah: false),
             '/notification': (context) => const NotificationPage(),
             '/list_patient': (context) => const ListPatientPage(),
             '/list_month': (context) => const ListMonthPage(),

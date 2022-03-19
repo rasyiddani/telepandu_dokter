@@ -38,6 +38,8 @@ class MessagesProvider with ChangeNotifier {
     }
   }
 
+  /////////////////////////////////////////////////////////////////////////////////
+  
   MessagesModels? _dataQuickMessage;
 
   MessagesModels? get dataQuickMessage => _dataQuickMessage;
@@ -47,7 +49,7 @@ class MessagesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserProfile(id) async {
+  Future<void> getDataQuickMessage(id) async {
     try {
       MessagesModels dataQuickMessage =
           await MessagesServices().getDataQuickMessage(id);
@@ -55,6 +57,26 @@ class MessagesProvider with ChangeNotifier {
       _dataQuickMessage = dataQuickMessage;
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////
+  
+   Future<bool> editQuickMessage({
+    String? title,
+    String? desc,
+    int? id,
+  }) async {
+    try {
+      await MessagesServices().editQuickMessage(
+        title: title,
+        desc: desc,
+        id: id,
+      );
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }
