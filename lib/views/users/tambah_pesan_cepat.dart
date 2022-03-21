@@ -42,19 +42,8 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
       isLoading = true;
     });
 
-    if (await Provider.of<MessagesProvider>(context, listen: false)
-        .addQuickMessage(title: title, desc: desc)) {
-      Navigator.pushReplacementNamed(context, '/pesan_cepat');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-          content:
-              Text("Maaf Tidak Dapat Menambah Data, Ada Masalah Pada Server"),
-        ),
-      );
-    }
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .addQuickMessage(title: title, desc: desc);
 
     setState(() {
       isLoading = false;
@@ -99,6 +88,8 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
                             if (_formKey.currentState!.validate()) {
                               tambahHandler(
                                   titleController?.text, descController?.text);
+                              Navigator.pushReplacementNamed(
+                                  context, '/pesan_cepat');
                             }
                           },
                         )

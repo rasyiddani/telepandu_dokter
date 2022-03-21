@@ -173,7 +173,7 @@ class _AvPageState extends State<AvPage> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Batal'),
+            child: const Text('Batal', style: TextStyle(color: Colors.red)),
           ),
         ],
       );
@@ -220,8 +220,8 @@ class _AvPageState extends State<AvPage> {
                     child: Text(
                       widget.namePasien,
                       style: CustomStyle.consultTitleText.copyWith(
-                          // color: CustomColor.light4Color,
-                          color: Colors.red,
+                          color: CustomColor.light4Color,
+                          // color: Colors.red,
                           fontSize: Dimensions.heading4TextSize),
                     ),
                   ),

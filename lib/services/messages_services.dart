@@ -128,4 +128,69 @@ class MessagesServices {
       throw Exception('Gagal Tambah Data');
     }
   }
+
+  Future<MessagesModels> deleteQuickMessage({
+    int? id,
+  }) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'quick-message/delete');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'id': id,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    print(response.statusCode);
+    print(body);
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      MessagesModels deleteQuick = MessagesModels.fromJson(data);
+
+      return deleteQuick;
+    } else {
+      throw Exception('Gagal Delete Data');
+    }
+  }
+
+   Future<List<MessagesModels>> getDiseases() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'diseases');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+    
+    print("${response.statusCode} resp");
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['penyakit'];
+      List<MessagesModels> diseases = [];
+      for (var item in data) {
+        diseases.add(MessagesModels.fromJson(item));
+      }
+
+      return diseases;
+    } else {
+      throw Exception('Gagal Dapatkan Data');
+    }
+  }
 }

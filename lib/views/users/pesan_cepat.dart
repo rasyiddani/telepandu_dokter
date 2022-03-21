@@ -30,6 +30,40 @@ class _PesanCepatPageState extends State<PesanCepatPage> {
     });
   }
 
+  Future onDeleteHandler(id) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .deleteQuickMessage(id: id);
+    getApi();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  //widget popup
+  Widget popupMessage(id) {
+    return AlertDialog(
+      content: const Text("Apakah anda yakin menghapus pesan cepat ini?"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            onDeleteHandler(id);
+            Navigator.pop(context, 'Cancel');
+          },
+          child: const Text('Ya'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Batal', style: TextStyle(color: Colors.red)),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
@@ -63,6 +97,12 @@ class _PesanCepatPageState extends State<PesanCepatPage> {
                         physics: const BouncingScrollPhysics(),
                         children: messagesProvider.quickMessages.map((item) {
                           return CardPesanCepat(
+                            onDeletePress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      popupMessage(item.id));
+                            },
                             quickMessages: item,
                           );
                         }).toList()),

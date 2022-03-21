@@ -2,7 +2,9 @@ part of 'components.dart';
 
 class CardPesanCepat extends StatelessWidget {
   final MessagesModels quickMessages;
-  const CardPesanCepat({Key? key, required this.quickMessages})
+  final Function onDeletePress;
+  const CardPesanCepat(
+      {Key? key, required this.quickMessages, required this.onDeletePress})
       : super(key: key);
 
   @override
@@ -10,13 +12,16 @@ class CardPesanCepat extends StatelessWidget {
     return Column(
       children: [
         InkWell(
+          onLongPress: () {
+            onDeletePress();
+          },
           onTap: () {
-             Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TambahPesanCepatPage(isTambah: false, id: quickMessages.id),
-                  ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TambahPesanCepatPage(
+                      isTambah: false, id: quickMessages.id),
+                ));
           },
           child: Container(
             height: 130,

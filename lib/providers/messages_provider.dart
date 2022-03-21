@@ -62,21 +62,82 @@ class MessagesProvider with ChangeNotifier {
 
   //////////////////////////////////////////////////////////////////////////////////
   
+  MessagesModels? _editQuick;
+
+  MessagesModels? get editQuick => _editQuick;
+
+  set editQuick(MessagesModels? editQuick) {
+    _editQuick = editQuick;
+    notifyListeners();
+  }
+
    Future<bool> editQuickMessage({
     String? title,
     String? desc,
     int? id,
   }) async {
     try {
-      await MessagesServices().editQuickMessage(
+      MessagesModels editQuick = await MessagesServices().editQuickMessage(
         title: title,
         desc: desc,
         id: id,
       );
 
+      _editQuick = editQuick;
+
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////
+  
+  MessagesModels? _deleteQuick;
+
+  MessagesModels? get deleteQuick => _deleteQuick;
+
+  set deleteQuick(MessagesModels? deleteQuick) {
+    _deleteQuick = deleteQuick;
+    notifyListeners();
+  }
+
+   Future<bool> deleteQuickMessage({
+    String? title,
+    String? desc,
+    int? id,
+  }) async {
+    try {
+      MessagesModels deleteQuick = await MessagesServices().deleteQuickMessage(
+        id: id,
+      );
+
+      _deleteQuick = deleteQuick;
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  
+   List<MessagesModels> _diseases = [];
+  List<MessagesModels> get diseases => _diseases;
+
+  set diseases(List<MessagesModels> diseases) {
+    _diseases = diseases;
+    notifyListeners();
+  }
+
+  Future<void> getDiseases() async {
+    try {
+      List<MessagesModels> diseases =
+          await MessagesServices().getDiseases();
+
+      _diseases = diseases;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

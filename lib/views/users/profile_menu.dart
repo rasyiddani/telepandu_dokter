@@ -18,17 +18,7 @@ class _ProfileMenuPageState extends State<ProfileMenuPage> {
         isLoading = true;
       });
 
-      if (await Provider.of<AuthProvider>(context, listen: false).logout()) {
-        Navigator.pushReplacementNamed(context, '/login');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            content: Text("Gagal Logout"),
-          ),
-        );
-      }
+      await Provider.of<AuthProvider>(context, listen: false).logout();
 
       setState(() {
         isLoading = false;
@@ -74,6 +64,7 @@ class _ProfileMenuPageState extends State<ProfileMenuPage> {
                       // await preferences.clear();
                       // Navigator.pushReplacementNamed(context, '/login');
                       logoutHandler();
+                      Navigator.pushReplacementNamed(context, '/login');
                     }),
               ],
             )),

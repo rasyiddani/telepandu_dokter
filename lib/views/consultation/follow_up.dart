@@ -15,6 +15,27 @@ class _FollowUpPageState extends State<FollowUpPage> {
   bool isChooseDate = false;
   bool isLoading = false;
 
+  @override
+  void initState() {
+    getApi();
+
+    super.initState();
+  }
+
+  getApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await Provider.of<MessagesProvider>(context, listen: false)
+        .getQuickMessages();
+    await Provider.of<MessagesProvider>(context, listen: false).getDiseases();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   Map<String, bool> listItem = {
     'Resep Obat': false,
     'Rujukan BPJS': false,
@@ -213,22 +234,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
     );
   }
 
-  //widget intruksi cepat
-  Widget intruksiCepat() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: const [
-          SizedBox(width: 35),
-          CardItemCepat(text: "Es Teros"),
-          CardItemCepat(text: "Jangan Makan Pedas"),
-          CardItemCepat(text: "Jangan Minum Es"),
-          SizedBox(width: 35),
-        ],
-      ),
-    );
-  }
-
   //widget edukasi personal
   Widget edukasiPersonal() {
     return Padding(
@@ -256,21 +261,24 @@ class _FollowUpPageState extends State<FollowUpPage> {
     );
   }
 
-  //widget item edukasi personal
-  Widget itemEdukasi() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: const [
-          SizedBox(width: 35),
-          CardItemCepat(text: "Batuk"),
-          CardItemCepat(text: "Radang"),
-          CardItemCepat(text: "Pilek"),
-          CardItemCepat(text: "Panas"),
-          CardItemCepat(text: "Pusing"),
-          SizedBox(width: 35),
-        ],
-      ),
+  //widget popup
+  Widget popupMessage() {
+    return AlertDialog(
+      title: const Text("Apakah anda yakin?"),
+      content: const Text("Data yang sudah di submit tidak dapat diubah"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            kirimHandler();
+            Navigator.pushNamed(context, '/loading_success');
+          },
+          child: const Text('Ya'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Batal', style: TextStyle(color: Colors.red)),
+        ),
+      ],
     );
   }
 
@@ -300,6 +308,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
+
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: Stack(
@@ -312,7 +322,20 @@ class _FollowUpPageState extends State<FollowUpPage> {
               const SizedBox(height: 25),
               textBox(),
               const SizedBox(height: 20),
-              intruksiCepat(),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    children: messagesProvider.quickMessages.map((item) {
+                  var indexFirst = messagesProvider.quickMessages.indexOf(item);
+                  var indexLast = messagesProvider.quickMessages.length;
+                  print("last: $indexLast");
+
+                  return CardItemCepat(
+                    firstIndex: (indexFirst == 0) ? true : false,
+                    quickMessages: item,
+                  );
+                }).toList()),
+              ),
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.only(left: 35),
@@ -323,7 +346,21 @@ class _FollowUpPageState extends State<FollowUpPage> {
               const SizedBox(height: 20),
               edukasiPersonal(),
               const SizedBox(height: 20),
-              itemEdukasi(),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                    children: messagesProvider.diseases.map((item) {
+                  var indexFirst = messagesProvider.diseases.indexOf(item);
+                  var indexLast = messagesProvider.diseases.length;
+                  print("last: $indexLast");
+
+                  return CardItemCepat(
+                    isQuickMessages: false,
+                    firstIndex: (indexFirst == 0) ? true : false,
+                    quickMessages: item,
+                  );
+                }).toList()),
+              ),
               const SizedBox(height: 60),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35),
@@ -331,8 +368,12 @@ class _FollowUpPageState extends State<FollowUpPage> {
                       title: "Kirim",
                       isGreen: true,
                       onPress: () {
-                        kirimHandler();
-                        Navigator.pushNamed(context, '/loading_success');
+                        showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  popupMessage());
+                        // kirimHandler();
+                        // Navigator.pushNamed(context, '/loading_success');
                       })),
               const SizedBox(height: 60),
             ],
