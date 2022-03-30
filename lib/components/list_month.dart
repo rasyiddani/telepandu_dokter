@@ -1,7 +1,9 @@
 part of 'components.dart';
 
 class ListMonthComponent extends StatelessWidget {
-  const ListMonthComponent({Key? key}) : super(key: key);
+  final ListPatientModel listMonth;
+  const ListMonthComponent({Key? key, required this.listMonth})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ListMonthComponent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Name",
+                "${listMonth.name}",
                 style: CustomStyle.doctorListSubTitle
                     .copyWith(fontSize: Dimensions.heading5TextSize),
               ),

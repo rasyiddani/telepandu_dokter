@@ -70,4 +70,36 @@ class ListPatientServices {
       throw Exception('Gagal Dapatkan Data');
     }
   }
+
+  Future<List<ListPatientModel>> getDataListMonth(date) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'jadwal-saya-tanggal');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    var body = jsonEncode({
+      'date': date,
+    });
+
+    var response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['antrian'];
+      List<ListPatientModel> listMonth = [];
+      for (var item in data) {
+        listMonth.add(ListPatientModel.fromJson(item));
+      }
+
+      return listMonth;
+    } else {
+      throw Exception('Gagal Dapatkan Data');
+    }
+  }
 }

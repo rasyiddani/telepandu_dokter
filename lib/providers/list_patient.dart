@@ -16,10 +16,10 @@ class ListPatientProvider with ChangeNotifier {
 
   Future<void> getDataQueue(context) async {
     try {
-      ListPatientModel queue = await ListPatientServices().getDataQueue(context);
+      ListPatientModel queue =
+          await ListPatientServices().getDataQueue(context);
 
       _queue = queue;
-      
     } catch (e) {
       print(e);
     }
@@ -47,4 +47,23 @@ class ListPatientProvider with ChangeNotifier {
   }
 
   ////////////////////////////////////////////////////////////
+
+  List<ListPatientModel> _listMonth = [];
+  List<ListPatientModel> get listMonth => _listMonth;
+
+  set listMonth(List<ListPatientModel> listMonth) {
+    _listMonth = listMonth;
+    notifyListeners();
+  }
+
+  Future<void> getListMonth(date) async {
+    try {
+      List<ListPatientModel> listMonth =
+          await ListPatientServices().getDataListMonth(date);
+
+      _listMonth = listMonth;
+    } catch (e) {
+      print(e);
+    }
+  }
 }

@@ -44,6 +44,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
   };
 
   var holder_1 = [];
+  var diseases = [];
   var foundResepObat = "";
   var foundRujukan = "";
   var foundSuratKeterangan = "";
@@ -106,14 +107,11 @@ class _FollowUpPageState extends State<FollowUpPage> {
       suratKeteranganValue = false;
     }
 
-    print("resep obat : $resepObatValue");
-    print("rujukan : $rujukanBpjsValue");
-    print("surat : $suratKeteranganValue");
-    print("test lab : $testLabValue");
-
     // Clear array after use.
     holder_1.clear();
   }
+
+  getItemDiseases() {}
 
   //widget header
   Widget header() {
@@ -310,6 +308,12 @@ class _FollowUpPageState extends State<FollowUpPage> {
   Widget build(BuildContext context) {
     MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
 
+    getItemDiseases() {
+      setState(() {
+        // diseases = 
+      });
+    }
+
     return Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: Stack(
@@ -327,10 +331,10 @@ class _FollowUpPageState extends State<FollowUpPage> {
                 child: Row(
                     children: messagesProvider.quickMessages.map((item) {
                   var indexFirst = messagesProvider.quickMessages.indexOf(item);
-                  var indexLast = messagesProvider.quickMessages.length;
-                  print("last: $indexLast");
+                  // var indexLast = messagesProvider.quickMessages.length;
 
                   return CardItemCepat(
+                    onTapp: () {},
                     firstIndex: (indexFirst == 0) ? true : false,
                     quickMessages: item,
                   );
@@ -351,10 +355,12 @@ class _FollowUpPageState extends State<FollowUpPage> {
                 child: Row(
                     children: messagesProvider.diseases.map((item) {
                   var indexFirst = messagesProvider.diseases.indexOf(item);
-                  var indexLast = messagesProvider.diseases.length;
-                  print("last: $indexLast");
+                  var indexlast = messagesProvider.diseases.lastIndexOf(item);
+
+                  print("$indexlast item");
 
                   return CardItemCepat(
+                    onTapp: () {},
                     isQuickMessages: false,
                     firstIndex: (indexFirst == 0) ? true : false,
                     quickMessages: item,
@@ -369,9 +375,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
                       isGreen: true,
                       onPress: () {
                         showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  popupMessage());
+                            context: context,
+                            builder: (BuildContext context) => popupMessage());
                         // kirimHandler();
                         // Navigator.pushNamed(context, '/loading_success');
                       })),

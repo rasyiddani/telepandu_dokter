@@ -4,17 +4,22 @@ class CardItemCepat extends StatelessWidget {
   final MessagesModels quickMessages;
   final bool isQuickMessages;
   final bool firstIndex;
+  final Function onTapp;
   const CardItemCepat(
       {Key? key,
       required this.quickMessages,
       required this.firstIndex,
+      required this.onTapp,
       this.isQuickMessages = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("${quickMessages.name}");
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        onTapp();
+      },
       child: Container(
         height: 34,
         padding: const EdgeInsets.symmetric(horizontal: 10),
