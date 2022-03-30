@@ -60,14 +60,18 @@ class _ListMonthPageState extends State<ListMonthPage> {
   }
 
   Widget newCalendar() {
-    return CalendarDatePicker(
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2222),
-      onDateChanged: (DateTime selectedDate) {
-        String formatDate = dateFormat.format(selectedDate);
-        onSelectDate(formatDate);
-      },
+    return Container(
+      height: 284,
+      margin: const EdgeInsets.symmetric(horizontal: 35),
+      child: CalendarDatePicker(
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015),
+        lastDate: DateTime(2222),
+        onDateChanged: (DateTime selectedDate) {
+          String formatDate = dateFormat.format(selectedDate);
+          onSelectDate(formatDate);
+        },
+      ),
     );
   }
 
