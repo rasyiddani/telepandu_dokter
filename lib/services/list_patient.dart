@@ -90,12 +90,18 @@ class ListPatientServices {
       body: body,
     );
 
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body)['antrian'];
+      List data = jsonDecode(response.body)['jadwal'];
       List<ListPatientModel> listMonth = [];
       for (var item in data) {
         listMonth.add(ListPatientModel.fromJson(item));
       }
+
+      return listMonth;
+    } else if (response.statusCode == 204) {
+      List<ListPatientModel> listMonth = [];
 
       return listMonth;
     } else {

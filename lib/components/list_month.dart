@@ -36,7 +36,7 @@ class ListMonthComponent extends StatelessWidget {
                     .copyWith(fontSize: Dimensions.heading5TextSize),
               ),
               Text(
-                "Nomor Antrian",
+                "${listMonth.queueNumber}",
                 style: CustomStyle.doctorListSubTitle
                     .copyWith(fontSize: Dimensions.heading5TextSize),
               )
@@ -46,13 +46,13 @@ class ListMonthComponent extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Gender, ",
+                "${listMonth.gender}, ",
                 style: CustomStyle.doctorListSubTitle.copyWith(
                     fontSize: Dimensions.heading5TextSize,
                     fontWeight: FontWeight.w400),
               ),
               Text(
-                "Umur",
+                "${listMonth.age}",
                 style: CustomStyle.doctorListSubTitle.copyWith(
                     fontSize: Dimensions.heading5TextSize,
                     fontWeight: FontWeight.w400),

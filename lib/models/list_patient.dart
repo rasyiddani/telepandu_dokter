@@ -14,6 +14,7 @@ class ListPatientModel {
   int? queueTotal;
   int? queuNow;
   int? queu;
+  String? statusCode;
 
   ListPatientModel({
     required this.id,
@@ -29,6 +30,7 @@ class ListPatientModel {
     required this.queueTotal,
     required this.queuNow,
     required this.queu,
+    required this.statusCode,
   });
 
   ListPatientModel.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class ListPatientModel {
     queueTotal = json['kuota'];
     queuNow = json['antrian_saat_ini'];
     queu = json['jumlah_antrian'];
+    statusCode = json['statusCode'];
   }
 
   Map<String, dynamic> toJson() {

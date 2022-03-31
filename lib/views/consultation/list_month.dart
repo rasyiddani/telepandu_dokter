@@ -91,19 +91,18 @@ class _ListMonthPageState extends State<ListMonthPage> {
           newCalendar(),
           const SizedBox(height: 20),
           Expanded(
-            child: ListView(
-              children: listPatientProvider.listMonth.map((item) {
-                return ListMonthComponent(listMonth: item);
-              }).toList(),
-
-              // children: const [
-              //   ListMonthComponent(),
-              //   ListMonthComponent(),
-              //   ListMonthComponent(),
-              //   ListMonthComponent(),
-              //   ListMonthComponent(),
-              // ]
-            ),
+            child: isLoading
+                ? ListView(
+                    children: const [
+                      ListTodaySkeleton(),
+                      ListTodaySkeleton(),
+                    ],
+                  )
+                : ListView(
+                    children: listPatientProvider.listMonth.map((item) {
+                      return ListMonthComponent(listMonth: item);
+                    }).toList(),
+                  ),
           ),
         ],
       )),
