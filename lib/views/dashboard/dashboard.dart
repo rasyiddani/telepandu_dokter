@@ -25,6 +25,8 @@ class _DashboardPageState extends State<DashboardPage> {
     await Provider.of<ListPatientProvider>(context, listen: false)
         .getDataQueue(context);
 
+    await Provider.of<AuthProvider>(context, listen:false).getUserProfile();
+
     setState(() {
       isLoading = false;
     });

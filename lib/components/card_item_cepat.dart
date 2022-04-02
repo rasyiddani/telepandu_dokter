@@ -15,7 +15,6 @@ class CardItemCepat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("${quickMessages.name}");
     return GestureDetector(
       onTap: () {
         onTapp();

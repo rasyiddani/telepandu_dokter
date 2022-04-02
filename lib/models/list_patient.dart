@@ -2,6 +2,7 @@ part of 'models.dart';
 
 class ListPatientModel {
   int? id;
+  int? userId;
   String? name;
   String? email;
   String? sip;
@@ -18,6 +19,7 @@ class ListPatientModel {
 
   ListPatientModel({
     required this.id,
+    required this.userId,
     required this.name,
     required this.email,
     required this.sip,
@@ -35,6 +37,7 @@ class ListPatientModel {
 
   ListPatientModel.fromJson(Map<String, dynamic> json) {
     id = json['consult_log_id'];
+    userId = json['doctor_type_id'];
     name = json['name'];
     email = json['email'];
     sip = json['sip'];
@@ -53,6 +56,7 @@ class ListPatientModel {
   Map<String, dynamic> toJson() {
     return {
       'consult_log_id': id,
+      'doctor_type_id': userId,
       'name': name,
       'email': email,
       'sip': sip,

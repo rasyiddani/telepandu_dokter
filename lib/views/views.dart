@@ -10,12 +10,14 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telemedicine_doctor/components/components.dart';
 import 'package:telemedicine_doctor/providers/providers.dart';
+import 'package:telemedicine_doctor/services/services.dart';
 import 'package:telemedicine_doctor/utils/utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:telemedicine_doctor/models/models.dart';
 
 part 'splash_screen.dart';
 part './auth/forgot_password.dart';

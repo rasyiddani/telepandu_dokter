@@ -1,7 +1,7 @@
 part of 'components.dart';
 
 class ChatItemComponents extends StatelessWidget {
-  final bool isChatDoctor;
+  final bool? isChatDoctor;
   final String text;
   const ChatItemComponents(
       {Key? key, this.isChatDoctor = true, required this.text})
@@ -10,7 +10,7 @@ class ChatItemComponents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: isChatDoctor ? const EdgeInsets.only(top: 10, left: 35, right: 20) : const EdgeInsets.only(top: 10, left: 20, right: 35),
+      margin: isChatDoctor! ? const EdgeInsets.only(top: 10, left: 35, right: 20) : const EdgeInsets.only(top: 10, left: 20, right: 35),
       child: Column(
         children: [
           Container(
@@ -18,7 +18,7 @@ class ChatItemComponents extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
-                color: isChatDoctor
+                color: isChatDoctor!
                     ? CustomColor.light1Color
                     : const Color(0xFFD6FFEF)),
             child: RichText(
@@ -30,14 +30,14 @@ class ChatItemComponents extends StatelessWidget {
           ),
           Align(
               alignment:
-                  isChatDoctor ? Alignment.centerRight : Alignment.centerLeft,
+                  isChatDoctor! ? Alignment.centerRight : Alignment.centerLeft,
               child: Container(
-                  transform: isChatDoctor
+                  transform: isChatDoctor!
                       ? Matrix4.translationValues(-15, -5, 0)
                       : Matrix4.translationValues(15, -5, 0),
                   child: Trianngle(
-                    isChatDoctor: isChatDoctor,
-                    color: isChatDoctor
+                    isChatDoctor: isChatDoctor!,
+                    color: isChatDoctor!
                         ? CustomColor.light1Color
                         : const Color(0xFFD6FFEF),
                   )))
