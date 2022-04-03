@@ -4,7 +4,8 @@ class ChatModel {
   String? message;
   int? userId;
   String? userName;
-  bool? isDoctor;
+  String? rules;
+  String? room;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -12,7 +13,8 @@ class ChatModel {
     required this.message,
     required this.userId,
     required this.userName,
-    required this.isDoctor,
+    required this.rules,
+    required this.room,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -21,7 +23,8 @@ class ChatModel {
     message = json['message'];
     userId = json['id'];
     userName = json['name'];
-    isDoctor = json['isDoctor'];
+    rules = json['rules'];
+    room = json['room'];
     createdAt = DateTime.parse(json['createdAt']);
     updatedAt = DateTime.parse(json['updatedAt']);
   }
@@ -31,7 +34,8 @@ class ChatModel {
       'message': message,
       'id': userId,
       'userName': userName,
-      'isDoctor': isDoctor,
+      'rules': rules,
+      'room': room,
       'createdAt': createdAt.toString(),
       'updatedAt': updatedAt.toString()
     };

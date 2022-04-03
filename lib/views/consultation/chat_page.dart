@@ -1,7 +1,10 @@
 part of '../views.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  final String roomId;
+  final int idPatient;
+  const ChatPage({Key? key, required this.roomId, required this.idPatient})
+      : super(key: key);
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -70,7 +73,8 @@ class _ChatPageState extends State<ChatPage> {
                   ChatService().addMessages(
                       user: authProvider.profile,
                       message: chatController.text,
-                      isDoctor: true);
+                      room: widget.roomId,
+                      rules: 'doctor');
 
                   setState(() {
                     chatController.text = '';
@@ -97,15 +101,17 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: StreamBuilder<List<ChatModel>>(
                 stream: ChatService().getMessagesByDoctorId(
-                    userId: authProvider.profile?.userId),
+                    rules: 'doctor',
+                    room: widget.roomId.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView(
                       children: snapshot.data!.map((ChatModel chat) {
                         return ChatItemComponents(
                           text: "${chat.message}",
-                          isChatDoctor: chat.isDoctor,
-                          );
+                          isChatDoctor:
+                              chat.rules.toString() == 'doctor' ? true : false,
+                        );
                       }).toList(),
                     );
                   } else {

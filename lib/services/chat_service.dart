@@ -3,11 +3,13 @@ part of 'services.dart';
 class ChatService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-   Stream<List<ChatModel>> getMessagesByDoctorId({int? userId}) {
+  Stream<List<ChatModel>> getMessagesByDoctorId(
+      {String? rules, String? room}) {
     try {
       return firestore
           .collection('chat')
-          .where('userId', isEqualTo: userId)
+          .where('room', isEqualTo: room)
+          .where('rules', isEqualTo: rules)
           .snapshots()
           .map((QuerySnapshot list) {
         var result = list.docs.map<ChatModel>((DocumentSnapshot message) {
@@ -16,8 +18,7 @@ class ChatService {
         }).toList();
 
         result.sort(
-          (ChatModel a, ChatModel b) =>
-              a.createdAt!.compareTo(b.createdAt!),
+          (ChatModel a, ChatModel b) => a.createdAt!.compareTo(b.createdAt!),
         );
 
         return result;
@@ -30,14 +31,16 @@ class ChatService {
   Future<void> addMessages({
     ListPatientModel? user,
     String? message,
-    bool? isDoctor,
+    String? rules,
+    String? room,
   }) async {
     try {
       firestore.collection('chat').add({
         'userId': user?.userId,
         'userName': user?.name,
-        'isDoctor': isDoctor,
+        'rules': rules,
         'message': message,
+        'room': room,
         'createdAt': DateTime.now().toString(),
         'updatedAt': DateTime.now().toString(),
       }).then((value) => print("Chat berhasil disimpan!!"));

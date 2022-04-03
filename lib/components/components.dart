@@ -12,6 +12,7 @@ part 'card_profile_menu.dart';
 part 'card_profile.dart';
 part 'card_user_profile.dart';
 part 'card_item_cepat.dart';
+part 'card_item_with_button.dart';
 part 'chat_item.dart';
 part 'header.dart';
 part 'header_with_button.dart';

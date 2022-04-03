@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             '/list_patient': (context) => const ListPatientPage(),
             '/list_month': (context) => const ListMonthPage(),
             '/av_page': (context) => const AvPage(id: 0, namePasien: "namaPasien",),
-            '/chat_page': (context) => const ChatPage(),
+            '/chat_page': (context) => const ChatPage(roomId: '0', idPatient: 0,),
             '/follow_up': (context) => const FollowUpPage(id: 0),
             '/loading_success': (context) => const LoadingSuccess(),
           }),

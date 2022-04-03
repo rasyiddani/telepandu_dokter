@@ -252,7 +252,15 @@ class _AvPageState extends State<AvPage> {
                       IconAvComponents(
                           icon: Icons.send,
                           onTap: () {
-                            Navigator.pushNamed(context, '/chat_page');
+                            // Navigator.pushNamed(context, '/chat_page');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    roomId: chanelNameRtc,
+                                    idPatient: widget.id,
+                                  ),
+                                ));
                           }),
                     ],
                   ),

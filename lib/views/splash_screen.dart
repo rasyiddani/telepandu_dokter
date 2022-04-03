@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Timer(
           const Duration(seconds: 3),
           () => Navigator.pushReplacementNamed(
-              context, (finalToken == 'null') ? '/login' : '/chat_page'));
+              context, (finalToken == 'null') ? '/login' : '/dashboard'));
     });
   }
 

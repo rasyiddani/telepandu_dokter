@@ -10,7 +10,6 @@ class FollowUpPage extends StatefulWidget {
 
 class _FollowUpPageState extends State<FollowUpPage> {
   TextEditingController intruksiController = TextEditingController();
-  TextEditingController edukasiPersonalController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   bool isChooseDate = false;
   bool isLoading = false;
@@ -45,6 +44,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
 
   var holder_1 = [];
   var diseases = [];
+  var selectQuickMessage = "";
   var foundResepObat = "";
   var foundRujukan = "";
   var foundSuratKeterangan = "";
@@ -232,33 +232,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
     );
   }
 
-  //widget edukasi personal
-  Widget edukasiPersonal() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 35),
-      child: Column(
-        children: [
-          TextFormField(
-            controller: edukasiPersonalController,
-            keyboardType: TextInputType.text,
-            decoration: CustomStyle.textInputCustom.copyWith(
-              hintText: "Type something",
-              hintStyle: CustomStyle.profileTextButton.copyWith(
-                  fontWeight: FontWeight.w400, color: CustomColor.dark3Color),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Mohon Diisi Form Yang Kosong";
-              } else {
-                return null;
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   //widget popup
   Widget popupMessage() {
     return AlertDialog(
@@ -289,7 +262,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
         .makeInstructions(
             widget.id,
             intruksiController.text,
-            edukasiPersonalController.text.split(','),
+            diseases,
             resepObatValue,
             rujukanBpjsValue,
             suratKeteranganValue,
@@ -298,6 +271,9 @@ class _FollowUpPageState extends State<FollowUpPage> {
 
     await Provider.of<ConsultProviders>(context, listen: false)
         .endConsult(widget.id);
+
+    diseases.clear();
+    intruksiController.text = '';
 
     setState(() {
       isLoading = false;
@@ -308,9 +284,17 @@ class _FollowUpPageState extends State<FollowUpPage> {
   Widget build(BuildContext context) {
     MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
 
-    getItemDiseases() {
+    intruksiController.text = selectQuickMessage;
+
+    getItemDiseases(item) {
       setState(() {
-        // diseases = 
+        diseases.add(item);
+      });
+    }
+
+    getQuickMessages(String item) {
+      setState(() {
+        selectQuickMessage = intruksiController.text + item;
       });
     }
 
@@ -330,12 +314,16 @@ class _FollowUpPageState extends State<FollowUpPage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                     children: messagesProvider.quickMessages.map((item) {
-                  var indexFirst = messagesProvider.quickMessages.indexOf(item);
-                  // var indexLast = messagesProvider.quickMessages.length;
+                  var index = messagesProvider.quickMessages.indexOf(item);
 
                   return CardItemCepat(
-                    onTapp: () {},
-                    firstIndex: (indexFirst == 0) ? true : false,
+                    onTapp: () {
+                      getQuickMessages(messagesProvider
+                              .quickMessages[index].desc
+                              .toString() +
+                          '\n');
+                    },
+                    firstIndex: (index == 0) ? true : false,
                     quickMessages: item,
                   );
                 }).toList()),
@@ -348,21 +336,47 @@ class _FollowUpPageState extends State<FollowUpPage> {
                     style: CustomStyle.notifHeaderText,
                   )),
               const SizedBox(height: 20),
-              edukasiPersonal(),
+              Container(
+                height: 60,
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 35),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: Colors.black87,
+                    width: 1,
+                  ),
+                  color: Colors.white,
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: diseases.map((e) {
+                      return CardItemWithButton(
+                          name: e,
+                          ontap: () {
+                            setState(() {
+                              diseases.remove(e);
+                            });
+                          });
+                    }).toList(),
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                     children: messagesProvider.diseases.map((item) {
-                  var indexFirst = messagesProvider.diseases.indexOf(item);
-                  var indexlast = messagesProvider.diseases.lastIndexOf(item);
-
-                  print("$indexlast item");
+                  var index = messagesProvider.diseases.indexOf(item);
 
                   return CardItemCepat(
-                    onTapp: () {},
+                    onTapp: () {
+                      getItemDiseases(messagesProvider.diseases[index].name);
+                    },
                     isQuickMessages: false,
-                    firstIndex: (indexFirst == 0) ? true : false,
+                    firstIndex: (index == 0) ? true : false,
                     quickMessages: item,
                   );
                 }).toList()),
