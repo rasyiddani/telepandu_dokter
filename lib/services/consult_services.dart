@@ -167,10 +167,10 @@ class ConsultServices {
     int? id,
     String? instructions,
     List? diseases,
-    bool? butuhTesLab,
     bool? resepObat,
-    bool? suratKeterangan,
     bool? rujukanBpjs,
+    bool? suratKeterangan,
+    bool? butuhTesLab,
     String? date,
   ) async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -185,11 +185,11 @@ class ConsultServices {
       'consult_log_id': id,
       'diseases': diseases,
       'instruction': instructions,
-      butuhTesLab == true ? 'butuh_tes_lab': butuhTesLab : null,
-      resepObat == true ? 'resep_obat': resepObat : null,
-      suratKeterangan == true ? 'surat_keterangan': suratKeterangan : null,
-      rujukanBpjs == true ? 'rujukan_bpjs': rujukanBpjs : null,
-      rujukanBpjs == true ? 'date': date : null,
+      'resep_obat': resepObat == true ? 1 : 0,
+      'rujukan_bpjs': rujukanBpjs == true ? 1 : 0,
+      'surat_keterangan': suratKeterangan == true ? 1 : 0,
+      'butuh_tes_lab': butuhTesLab == true ? 1 : 0,
+      'date': butuhTesLab == true ? date : null,
     });
 
     var response = await http.post(
@@ -197,10 +197,11 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    
+
+    print("status buat intruksi: $resepObat");
     print("status buat intruksi: $body");
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       print(data);
 

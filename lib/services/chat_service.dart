@@ -9,8 +9,6 @@ class ChatService {
       return firestore
           .collection('chat')
           .where('room', isEqualTo: room)
-          .where('rules', isEqualTo: rules)
-          .where('rules', isEqualTo: 'patient')
           .snapshots()
           .map((QuerySnapshot list) {
         var result = list.docs.map<ChatModel>((DocumentSnapshot message) {

@@ -111,8 +111,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
     holder_1.clear();
   }
 
-  getItemDiseases() {}
-
   //widget header
   Widget header() {
     return Container(
@@ -273,9 +271,9 @@ class _FollowUpPageState extends State<FollowUpPage> {
         .endConsult(widget.id);
 
     diseases.clear();
-    intruksiController.text = '';
 
     setState(() {
+      intruksiController.text = '';
       isLoading = false;
     });
   }

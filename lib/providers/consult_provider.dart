@@ -104,22 +104,22 @@ class ConsultProviders with ChangeNotifier {
       int? id,
       String? instructions,
       List? diseases,
-      bool? butuhTesLab,
       bool? resepObat,
-      bool? suratKeterangan,
       bool? rujukanBpjs,
+      bool? suratKeterangan,
+      bool? butuhTesLab,
       String? date) async {
     try {
       print(id);
-      print(butuhTesLab);
+      print(resepObat);
       ConsultModels instruction = await ConsultServices().makeInstructions(
           id,
           instructions,
           diseases,
-          butuhTesLab,
           resepObat,
-          suratKeterangan,
           rujukanBpjs,
+          suratKeterangan,
+          butuhTesLab,
           date);
 
       _instruction = instruction;
