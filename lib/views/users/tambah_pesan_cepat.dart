@@ -38,29 +38,29 @@ class _TambahPesanCepatPageState extends State<TambahPesanCepatPage> {
   }
 
   tambahHandler(title, desc) async {
-    setState(() {
-      isLoading = true;
-    });
+    // setState(() {
+    //   isLoading = true;
+    // });
 
     await Provider.of<MessagesProvider>(context, listen: false)
         .addQuickMessage(title: title, desc: desc);
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
   }
 
   editHandler(title, desc, id) async {
-    setState(() {
-      isLoading = true;
-    });
+    // setState(() {
+    //   isLoading = true;
+    // });
 
     await Provider.of<MessagesProvider>(context, listen: false)
         .editQuickMessage(title: title, desc: desc, id: id);
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
   }
 
   @override
