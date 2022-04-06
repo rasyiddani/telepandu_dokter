@@ -40,8 +40,7 @@ class ChatService {
         'rules': rules,
         'message': message,
         'room': room,
-        'createdAt': DateTime.now().toString(),
-        'updatedAt': DateTime.now().toString(),
+        'createdAt': FieldValue.serverTimestamp(),
       }).then((value) => print("Chat berhasil disimpan!!"));
     } catch (e) {
       throw Exception(e);
