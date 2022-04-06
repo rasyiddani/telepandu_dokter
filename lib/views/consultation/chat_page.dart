@@ -116,7 +116,7 @@ class _ChatPageState extends State<ChatPage> {
                     );
                   } else {
                     return const Center(
-                      child: LoadingCircle(),
+                      child: SizedBox(),
                     );
                   }
                 }),
