@@ -56,7 +56,6 @@ class ConsultProviders with ChangeNotifier {
 
   //////////////////////////////////////////////////////////////////////////////
 
-
   Future<bool> followUpConsult(id) async {
     try {
       await ConsultServices().followUpConsult(id);
@@ -126,6 +125,27 @@ class ConsultProviders with ChangeNotifier {
       return true;
     } catch (e) {
       return false;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////
+
+  List<ConsultModels> _labServices = [];
+  List<ConsultModels> get labServices => _labServices;
+
+  set labServices(List<ConsultModels> labServices) {
+    _labServices = labServices;
+    notifyListeners();
+  }
+
+  Future<void> getLabServices() async {
+    try {
+      List<ConsultModels> labServices =
+          await ConsultServices().getDataLabServices();
+
+      _labServices = labServices;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

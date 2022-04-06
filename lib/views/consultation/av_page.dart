@@ -311,6 +311,16 @@ class _AvPageState extends State<AvPage> {
           ),
           localViewRtc(),
           bottomComponents(),
+          Visibility(
+              visible: isLoading,
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                height: double.infinity,
+                width: double.infinity,
+                child: const Center(
+                  child: LoadingCircle(),
+                ),
+              ))
         ],
       ),
     );

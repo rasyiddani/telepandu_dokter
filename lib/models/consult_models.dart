@@ -10,6 +10,7 @@ class ConsultModels {
   String? tokenRtc;
   String? agoraAppId;
   String? chanelName;
+  int? price;
 
   ConsultModels({
     required this.id,
@@ -21,6 +22,7 @@ class ConsultModels {
     required this.tokenRtc,
     required this.agoraAppId,
     required this.chanelName,
+    required this.price,
   });
 
   ConsultModels.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class ConsultModels {
     tokenRtc = json['token'];
     agoraAppId = json['agora_app_id'];
     chanelName = json['channel_name'];
+    price = json['price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +49,7 @@ class ConsultModels {
       'token': tokenRtc,
       'agora_app_id': agoraAppId,
       'channel_name': chanelName,
+      'price': price,
     };
   }
 }

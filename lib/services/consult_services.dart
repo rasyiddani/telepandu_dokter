@@ -210,4 +210,37 @@ class ConsultServices {
       throw Exception('Gagal Kirim Data');
     }
   }
+
+  Future<List<ConsultModels>> getDataLabServices() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'lab-services');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    print("lab servis code: ${response.statusCode}");
+   
+
+    if (response.statusCode == 200) {
+      List data = jsonDecode(response.body)['layanan'];
+      List<ConsultModels> labServices = [];
+      for (var item in data) {
+        labServices.add(ConsultModels.fromJson(item));
+      }
+       print("lab servis: $data");
+
+      return labServices;
+    }
+     else {
+      throw Exception('Gagal Dapatkan Data');
+    }
+  }
 }

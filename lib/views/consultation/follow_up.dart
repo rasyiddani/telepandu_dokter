@@ -13,12 +13,35 @@ class _FollowUpPageState extends State<FollowUpPage> {
   DateTime selectedDate = DateTime.now();
   bool isChooseDate = false;
   bool isLoading = false;
+  int? idLab;
+  List<dynamic>? dataLab;
+  late SharedPreferences sharedPreferences;
 
   @override
   void initState() {
     getApi();
+    getDataLab();
 
     super.initState();
+  }
+
+  void getDataLab() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+    var url = Uri.parse(baseUrl + 'lab-services');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+    final respose = await http.get(
+      url,
+      headers: headers,
+    );
+    var listData = jsonDecode(respose.body)['layanan'];
+    setState(() {
+      dataLab = listData;
+    });
+    print("data lab : $dataLab");
   }
 
   getApi() async {
@@ -29,6 +52,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
     await Provider.of<MessagesProvider>(context, listen: false)
         .getQuickMessages();
     await Provider.of<MessagesProvider>(context, listen: false).getDiseases();
+    await Provider.of<ConsultProviders>(context, listen: false)
+        .getLabServices();
 
     setState(() {
       isLoading = false;
@@ -44,6 +69,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
 
   var holder_1 = [];
   var diseases = [];
+  var itemDiseases = [];
   var selectQuickMessage = "";
   var foundResepObat = "";
   var foundRujukan = "";
@@ -151,6 +177,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
       child: Container(
         width: double.infinity,
         height: 51,
+        margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           border: Border.all(color: CustomColor.mainColorLighter),
@@ -170,6 +197,51 @@ class _FollowUpPageState extends State<FollowUpPage> {
           ],
         ),
       ),
+    );
+  }
+
+  //widget dropdown lab servis
+  Widget dropdownLab() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Jenis Pemeriksaan Lab",
+          style: CustomStyle.consultlabelText,
+        ),
+        const SizedBox(
+          height: 11,
+        ),
+        Container(
+          height: 60,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              width: 0.5,
+              color: CustomColor.mainColor,
+            ),
+            color: Colors.white,
+          ),
+          child: DropdownButton(
+            value: idLab,
+            isExpanded: true,
+            underline: const SizedBox(),
+            items: dataLab
+                ?.map((e) => DropdownMenuItem(
+                      child: Text(e['name']),
+                      value: e['id'],
+                    ))
+                .toList(),
+            onChanged: (value) {
+              setState(() {
+                idLab = int.parse(value.toString());
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -197,9 +269,11 @@ class _FollowUpPageState extends State<FollowUpPage> {
               },
             );
           }).toList()),
+          
           foundTestLab == "Butuh Test Lab"
               ? containerDatePicker()
-              : const SizedBox()
+              : const SizedBox(),
+          foundTestLab == "Butuh Test Lab" ? dropdownLab() : const SizedBox(),
         ],
       ),
     );
@@ -260,15 +334,15 @@ class _FollowUpPageState extends State<FollowUpPage> {
         .makeInstructions(
             widget.id,
             intruksiController.text,
-            diseases,
+            itemDiseases,
             resepObatValue,
             rujukanBpjsValue,
             suratKeteranganValue,
             testLabValue,
             selectedDate.toLocal().toString());
 
-    await Provider.of<ConsultProviders>(context, listen: false)
-        .endConsult(widget.id);
+    // await Provider.of<ConsultProviders>(context, listen: false)
+    //     .endConsult(widget.id);
 
     diseases.clear();
 
@@ -287,6 +361,12 @@ class _FollowUpPageState extends State<FollowUpPage> {
     getItemDiseases(item) {
       setState(() {
         diseases.add(item);
+      });
+    }
+
+    getIdDiseases(item) {
+      setState(() {
+        itemDiseases.add(item);
       });
     }
 
@@ -372,6 +452,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
                   return CardItemCepat(
                     onTapp: () {
                       getItemDiseases(messagesProvider.diseases[index].name);
+                      getIdDiseases(messagesProvider.diseases[index].id);
                     },
                     isQuickMessages: false,
                     firstIndex: (index == 0) ? true : false,
