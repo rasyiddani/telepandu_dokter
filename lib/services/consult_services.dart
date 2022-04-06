@@ -172,6 +172,7 @@ class ConsultServices {
     bool? suratKeterangan,
     bool? butuhTesLab,
     String? date,
+    int? labId,
   ) async {
     sharedPreferences = await SharedPreferences.getInstance();
     var finalToken = sharedPreferences.getString("token");
@@ -190,6 +191,7 @@ class ConsultServices {
       'surat_keterangan': suratKeterangan == true ? 1 : 0,
       'butuh_tes_lab': butuhTesLab == true ? 1 : 0,
       'date': butuhTesLab == true ? date : null,
+      'lab_service_id' : butuhTesLab == true ? labId : null,
     });
 
     var response = await http.post(

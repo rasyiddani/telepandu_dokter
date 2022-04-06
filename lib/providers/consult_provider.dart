@@ -100,26 +100,30 @@ class ConsultProviders with ChangeNotifier {
   }
 
   Future<bool> makeInstructions(
-      int? id,
-      String? instructions,
-      List? diseases,
-      bool? resepObat,
-      bool? rujukanBpjs,
-      bool? suratKeterangan,
-      bool? butuhTesLab,
-      String? date) async {
+    int? id,
+    String? instructions,
+    List? diseases,
+    bool? resepObat,
+    bool? rujukanBpjs,
+    bool? suratKeterangan,
+    bool? butuhTesLab,
+    String? date,
+    int? labId,
+  ) async {
     try {
       print(id);
       print(resepObat);
       ConsultModels instruction = await ConsultServices().makeInstructions(
-          id,
-          instructions,
-          diseases,
-          resepObat,
-          rujukanBpjs,
-          suratKeterangan,
-          butuhTesLab,
-          date);
+        id,
+        instructions,
+        diseases,
+        resepObat,
+        rujukanBpjs,
+        suratKeterangan,
+        butuhTesLab,
+        date,
+        labId,
+      );
 
       _instruction = instruction;
       return true;

@@ -269,7 +269,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
               },
             );
           }).toList()),
-          
           foundTestLab == "Butuh Test Lab"
               ? containerDatePicker()
               : const SizedBox(),
@@ -332,14 +331,16 @@ class _FollowUpPageState extends State<FollowUpPage> {
 
     await Provider.of<ConsultProviders>(context, listen: false)
         .makeInstructions(
-            widget.id,
-            intruksiController.text,
-            itemDiseases,
-            resepObatValue,
-            rujukanBpjsValue,
-            suratKeteranganValue,
-            testLabValue,
-            selectedDate.toLocal().toString());
+      widget.id,
+      intruksiController.text,
+      itemDiseases,
+      resepObatValue,
+      rujukanBpjsValue,
+      suratKeteranganValue,
+      testLabValue,
+      selectedDate.toLocal().toString(),
+      idLab,
+    );
 
     // await Provider.of<ConsultProviders>(context, listen: false)
     //     .endConsult(widget.id);
