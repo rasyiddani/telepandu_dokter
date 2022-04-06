@@ -29,7 +29,6 @@ class _AvPageState extends State<AvPage> {
   void initState() {
     super.initState();
     getApi();
-    initAgora();
   }
 
   getApi() async {
@@ -47,6 +46,8 @@ class _AvPageState extends State<AvPage> {
     setState(() {
       isLoading = false;
     });
+
+    initAgora();
   }
 
   Future<void> initAgora() async {
