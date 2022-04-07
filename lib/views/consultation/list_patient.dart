@@ -35,6 +35,24 @@ class _ListPatientPageState extends State<ListPatientPage> {
     ListPatientProvider listPatientProvider =
         Provider.of<ListPatientProvider>(context);
 
+    Widget popupMessageSkip() {
+      return AlertDialog(
+        content: const Text("Apakah anda yakin skip pasien?"),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              getApi();
+            },
+            child: const Text('Ya'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Batal', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
         body: SafeArea(
       child: Column(
@@ -60,7 +78,11 @@ class _ListPatientPageState extends State<ListPatientPage> {
                         listToday: item,
                         ontappMulai: () {},
                         ontappSkip: () {
-                          getApi();
+                          // getApi();
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  popupMessageSkip());
                         },
                       );
                     }).toList(),

@@ -104,6 +104,7 @@ class _AvPageState extends State<AvPage> {
       appId = '${consultProviders.accept?.agoraAppId}';
       tokenRtc = '${consultProviders.accept?.tokenRtc}';
       chanelNameRtc = '${consultProviders.accept?.chanelName}';
+      print("nomer: $chanelNameRtc");
     });
 
     //widget local view
@@ -169,6 +170,30 @@ class _AvPageState extends State<AvPage> {
                     builder: (context) => FollowUpPage(id: widget.id),
                   ));
               // Navigator.pushNamed(context, '/follow_up');
+            },
+            child: const Text('Ya'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Batal', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    }
+
+    //widget popup
+    Widget popupMessageSkip() {
+      return AlertDialog(
+        content: const Text("Apakah anda yakin skip pasien?"),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              quitVideoCall();
+              await Provider.of<ConsultProviders>(context, listen: false)
+                  .skipQueue(widget.id);
+
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/list_patient', (Route<dynamic> route) => false);
             },
             child: const Text('Ya'),
           ),
@@ -272,12 +297,16 @@ class _AvPageState extends State<AvPage> {
                       IconAvComponents(
                         icon: Icons.add_to_home_screen,
                         onTap: () async {
-                          await Provider.of<ConsultProviders>(context,
-                                  listen: false)
-                              .skipQueue(widget.id);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  popupMessageSkip());
+                          // await Provider.of<ConsultProviders>(context,
+                          //         listen: false)
+                          //     .skipQueue(widget.id);
 
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              '/list_patient', (Route<dynamic> route) => false);
+                          // Navigator.pushNamedAndRemoveUntil(context,
+                          //     '/list_patient', (Route<dynamic> route) => false);
                         },
                       ),
                       const SizedBox(width: 20),

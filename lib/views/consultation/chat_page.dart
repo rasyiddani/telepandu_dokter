@@ -101,7 +101,6 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: StreamBuilder<List<ChatModel>>(
                 stream: ChatService().getMessagesByDoctorId(
-                    rules: 'doctor',
                     room: widget.roomId.toString()),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

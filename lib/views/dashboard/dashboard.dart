@@ -9,6 +9,9 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   late bool isLoading = false;
+  String nameDoctor = "";
+  List<String> splitedName = [];
+  String nameDoctorResult = "";
 
   @override
   void initState() {
@@ -37,6 +40,16 @@ class _DashboardPageState extends State<DashboardPage> {
     ListPatientProvider listPatientProvider =
         Provider.of<ListPatientProvider>(context);
 
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    setState(() {
+      nameDoctor = "${authProvider.profile?.name}";
+      splitedName = nameDoctor.split(" ");
+      nameDoctorResult = splitedName[0];
+    });
+
+    print(nameDoctorResult);
+
     //widget Header
     Widget header() {
       return Padding(
@@ -59,7 +72,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  "Halo, Doctor!",
+                  "Halo, Dr $nameDoctorResult",
                   style: TextStyle(fontSize: Dimensions.leadParagraphTextSize),
                 ),
               ],
