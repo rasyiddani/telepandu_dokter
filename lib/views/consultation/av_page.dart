@@ -3,7 +3,12 @@ part of '../views.dart';
 class AvPage extends StatefulWidget {
   final String namePasien;
   final int id;
-  const AvPage({Key? key, required this.namePasien, required this.id})
+  final String phone;
+  const AvPage(
+      {Key? key,
+      required this.namePasien,
+      required this.id,
+      required this.phone})
       : super(key: key);
 
   @override
@@ -13,11 +18,11 @@ class AvPage extends StatefulWidget {
 //http://telemedicine-test.akunku.co/api/log-konsul/{id}
 
 class _AvPageState extends State<AvPage> {
-  late String appId = ''; //api
+  late String appId = '40d5d2002f3948dbb3f86c40d1562ffc'; //api
   late String tokenRtc = ''; //api refresh token
-  late String chanelNameRtc = ''; //no telp pasien
+  late String chanelNameRtc = widget.phone; //no telp pasien
 
-  int? _remoteUid;
+  int _remoteUid = 0;
   bool _localUserJoined = false;
   late RtcEngine _engine;
   late bool video = true;
@@ -27,11 +32,13 @@ class _AvPageState extends State<AvPage> {
 
   @override
   void initState() {
+    getApi().whenComplete(
+        () => Timer(const Duration(seconds: 0), () => initAgora()));
+    // initAgora();
     super.initState();
-    getApi();
   }
 
-  getApi() async {
+  Future<void> getApi() async {
     setState(() {
       isLoading = true;
     });
@@ -47,17 +54,23 @@ class _AvPageState extends State<AvPage> {
       isLoading = false;
     });
 
-    initAgora();
+    // initAgora();
   }
 
   Future<void> initAgora() async {
     // retrieve permissions
     await [Permission.microphone, Permission.camera].request();
 
+    print("Chanel name: $chanelNameRtc");
+    print("app ID: $appId");
+    print("token rtc: $tokenRtc");
+
     //create the engine
     _engine = await RtcEngine.create(appId);
 
     await _engine.enableVideo();
+    await _engine.enableAudio();
+
     _engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {
@@ -75,7 +88,7 @@ class _AvPageState extends State<AvPage> {
         userOffline: (int uid, UserOfflineReason reason) {
           // print("remote user $uid left channel");
           setState(() {
-            _remoteUid = null;
+            _remoteUid = 0;
           });
         },
       ),
@@ -86,8 +99,9 @@ class _AvPageState extends State<AvPage> {
 
   // Display remote user's video
   Widget _remoteVideo() {
-    if (_remoteUid != null) {
-      return RtcRemoteView.SurfaceView(uid: _remoteUid!);
+    if (_remoteUid != 0) {
+      return RtcRemoteView.SurfaceView(
+          uid: _remoteUid, channelId: chanelNameRtc);
     } else {
       return const Text(
         'Please wait for remote user to join',
@@ -101,10 +115,9 @@ class _AvPageState extends State<AvPage> {
     ConsultProviders consultProviders = Provider.of<ConsultProviders>(context);
 
     setState(() {
-      appId = '${consultProviders.accept?.agoraAppId}';
+      // appId = '${consultProviders.accept?.agoraAppId}';
       tokenRtc = '${consultProviders.accept?.tokenRtc}';
-      chanelNameRtc = '${consultProviders.accept?.chanelName}';
-      print("nomer: $chanelNameRtc");
+      // chanelNameRtc = '${consultProviders.accept?.chanelName}';
     });
 
     //widget local view
@@ -181,19 +194,23 @@ class _AvPageState extends State<AvPage> {
       );
     }
 
+    skipHandler() async {
+      quitVideoCall();
+      await Provider.of<ConsultProviders>(context, listen: false)
+          .skipQueue(widget.id);
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/list_patient', (Route<dynamic> route) => false);
+    }
+
     //widget popup
     Widget popupMessageSkip() {
       return AlertDialog(
         content: const Text("Apakah anda yakin skip pasien?"),
         actions: [
           TextButton(
-            onPressed: () async {
-              quitVideoCall();
-              await Provider.of<ConsultProviders>(context, listen: false)
-                  .skipQueue(widget.id);
-
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/list_patient', (Route<dynamic> route) => false);
+            onPressed: () {
+              skipHandler();
             },
             child: const Text('Ya'),
           ),

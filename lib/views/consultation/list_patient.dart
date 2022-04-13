@@ -42,6 +42,7 @@ class _ListPatientPageState extends State<ListPatientPage> {
           TextButton(
             onPressed: () async {
               getApi();
+              Navigator.pop(context, 'Cancel');
             },
             child: const Text('Ya'),
           ),
@@ -78,11 +79,11 @@ class _ListPatientPageState extends State<ListPatientPage> {
                         listToday: item,
                         ontappMulai: () {},
                         ontappSkip: () {
-                          // getApi();
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  popupMessageSkip());
+                          getApi();
+                          // showDialog(
+                          //     context: context,
+                          //     builder: (BuildContext context) =>
+                          //         popupMessageSkip());
                         },
                       );
                     }).toList(),

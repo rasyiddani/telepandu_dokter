@@ -22,19 +22,31 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
 
   @override
   Widget build(BuildContext context) {
-    Future skipHandler(id) async {
-      if (await Provider.of<ConsultProviders>(context, listen: false)
-          .skipQueue(id)) {
-        widget.ontappSkip();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-            content: Text("Tidak Dapat Skip Antrian"),
+    Widget popupMessageSkip(id) {
+      return AlertDialog(
+        content: const Text("Apakah anda yakin skip pasien?"),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              await Provider.of<ConsultProviders>(context, listen: false)
+                  .skipQueue(id);
+              Navigator.pop(context, 'Cancel');
+              widget.ontappSkip();
+            },
+            child: const Text('Ya'),
           ),
-        );
-      }
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Batal', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    }
+
+    Future skipHandler(id) async {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => popupMessageSkip(id));
     }
 
     //widget button
@@ -63,7 +75,7 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
     }
 
     //widget button with skip
-    Widget buttonWithSkip(id, namePasien) {
+    Widget buttonWithSkip(id, namePasien, phone) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -72,8 +84,11 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        AvPage(namePasien: namePasien, id: id),
+                    builder: (context) => AvPage(
+                      namePasien: namePasien,
+                      id: id,
+                      phone: phone,
+                    ),
                   ));
             },
             child: Container(
@@ -96,6 +111,7 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
           InkWell(
             onTap: () {
               skipHandler(id);
+              // widget.ontappSkip();
             },
             child: Container(
               height: 46,
@@ -164,7 +180,8 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
           ),
           const SizedBox(height: 30),
           widget.isIndex0
-              ? buttonWithSkip(widget.listToday.id, widget.listToday.name)
+              ? buttonWithSkip(widget.listToday.id, widget.listToday.name,
+                  widget.listToday.phone)
               : button(),
         ],
       ),
