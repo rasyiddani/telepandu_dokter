@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:telemedicine_doctor/utils/colors.dart';
-import 'package:telemedicine_doctor/utils/custom_style.dart';
-import 'package:telemedicine_doctor/utils/dimensions.dart';
+part of '../views.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -15,53 +12,53 @@ class NotificationPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: Text(
           "Notifikasi",
-          style: CustomStyle.NotifHeaderText,
+          style: CustomStyle.notifHeaderText,
         ),
       ),
       body: ListView(
         children: [
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList(),
+          notifList(),
           Divider(
             color: CustomColor.dark4Color,
             thickness: 2,
           ),
-          NotifList()
+          notifList()
         ],
       ),
     );
   }
 
-  Padding NotifList() {
+  Padding notifList() {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Row(
@@ -73,45 +70,37 @@ class NotificationPage extends StatelessWidget {
                 Icons.info,
                 color: CustomColor.infoColor,
               ),
-              SizedBox(
-                height: 24,
-              ),
-              SizedBox(
-                height: 24,
-              ),
+              const SizedBox(height: 24),
+              const SizedBox(height: 24),
             ],
           ),
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                   width: 250,
                   child: Text(
                     "Kata Sandi Anda Diperbarui",
-                    style: CustomStyle.NotifTitleText,
+                    style: CustomStyle.notifTitleText,
                   )),
-              Container(
+              SizedBox(
                 width: 250,
                 child: Text(
                   "Kata sandi anda berhasil dirubah. Untuk meminimalisir kesalahan silakan catat kata sandi baru anda.",
-                  style: CustomStyle.NotifSubTitleText,
+                  style: CustomStyle.notifSubTitleText,
                 ),
               ),
               Text(
                 "10 Januari 2022, 16:10",
-                style: CustomStyle.NotifTimeText,
+                style: CustomStyle.notifTimeText,
               ),
             ],
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Column(
             children: [
-              SizedBox(
-                height: 24,
-              ),
+              const SizedBox(height: 24),
               Container(
                 height: 20,
                 width: 20,
@@ -119,9 +108,7 @@ class NotificationPage extends StatelessWidget {
                     color: CustomColor.successColor,
                     borderRadius: BorderRadius.circular(10)),
               ),
-              SizedBox(
-                height: 24,
-              ),
+              const SizedBox(height: 24),
             ],
           )
         ],

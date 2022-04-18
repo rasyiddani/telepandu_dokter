@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "11461125079",
+    "project_id": "telepandu-fadc0",
+    "storage_bucket": "telepandu-fadc0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11461125079:android:388da1d4d92b037036a192",
+        "android_client_info": {
+          "package_name": "com.telepandu.doctor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11461125079-8m8ms98kn7qv9p4q7naeau6f14l8bt5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFve_or43msY3iTnT2NhL59DNA30fEZzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11461125079-8m8ms98kn7qv9p4q7naeau6f14l8bt5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11461125079:android:7370dbd37c2af85436a192",
+        "android_client_info": {
+          "package_name": "com.telepandu.pasien"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11461125079-8m8ms98kn7qv9p4q7naeau6f14l8bt5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFve_or43msY3iTnT2NhL59DNA30fEZzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11461125079-8m8ms98kn7qv9p4q7naeau6f14l8bt5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

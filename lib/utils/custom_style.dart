@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:telemedicine_doctor/utils/colors.dart';
-import 'package:telemedicine_doctor/utils/dimensions.dart';
+part of 'utils.dart';
 
 class CustomStyle {
   static var labelText = TextStyle(
+      fontFamily: 'Lexend',
       fontSize: Dimensions.heading4TextSize,
       color: CustomColor.white,
       fontWeight: FontWeight.w700);
 
   static var titleText = TextStyle(
+      fontFamily: 'Lexend',
       fontSize: Dimensions.heading2TextSize,
       color: CustomColor.white,
       fontWeight: FontWeight.w700);
@@ -17,96 +17,96 @@ class CustomStyle {
       filled: true,
       fillColor: Colors.white,
       focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xff00B896)),
+          borderSide: const BorderSide(color: Color(0xff00B896)),
           borderRadius: BorderRadius.circular(5)),
       border: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xff00B896)),
+          borderSide: const BorderSide(color: Color(0xff00B896)),
           borderRadius: BorderRadius.circular(5)));
 
 //Halaman Notifikasi
-  static var NotifHeaderText = TextStyle(
+  static var notifHeaderText = TextStyle(
       fontFamily: 'Lexend',
       fontSize: Dimensions.leadParagraphTextSize,
       color: CustomColor.dark1Color,
       fontWeight: FontWeight.w400);
 
-  static var NotifTitleText = TextStyle(
+  static var notifTitleText = TextStyle(
       fontFamily: 'Lexend',
       fontSize: Dimensions.heading5TextSize,
       color: CustomColor.dark1Color,
       fontWeight: FontWeight.w700);
 
-  static var NotifSubTitleText = TextStyle(
+  static var notifSubTitleText = TextStyle(
       fontFamily: 'Lexend',
       fontSize: Dimensions.bodyMediumTextSize,
       color: CustomColor.dark1Color,
       fontWeight: FontWeight.w400);
 
-  static var NotifTimeText = TextStyle(
+  static var notifTimeText = TextStyle(
       fontFamily: 'Lexend',
       fontSize: Dimensions.bodyNormalTextSize,
       color: CustomColor.mainColor,
       fontWeight: FontWeight.w400);
 
   //Halaman UserProfile
-  static var ProfileCard = BoxDecoration(
+  static var profileCard = BoxDecoration(
       color: CustomColor.mainColor, borderRadius: BorderRadius.circular(6));
 
-  static var ProfileDescCard = TextStyle(
+  static var profileDescCard = TextStyle(
     fontFamily: 'Lexend',
     color: CustomColor.light4Color,
     fontSize: Dimensions.leadParagraphTextSize,
     fontWeight: FontWeight.w400,
   );
 
-  static var ProfileButton = ElevatedButton.styleFrom(
-      primary: CustomColor.mainColor, fixedSize: Size(290, 46));
+  static var profileButton = ElevatedButton.styleFrom(
+      primary: CustomColor.mainColor, fixedSize: const Size(290, 46));
 
-  static var ProfileTextButton = TextStyle(
+  static var profileTextButton = TextStyle(
     fontFamily: 'Lexend',
     fontSize: Dimensions.heading5TextSize,
     fontWeight: FontWeight.w700,
   );
 
   //Halaman Konsultasi
-  static var ConsultBorder = BoxDecoration(
+  static var consultBorder = BoxDecoration(
       color: CustomColor.mainColor, borderRadius: BorderRadius.circular(6));
 
-  static var ConsultTitleText = TextStyle(
+  static var consultTitleText = TextStyle(
       fontFamily: 'Lexend',
       fontSize: Dimensions.heading2TextSize,
       fontWeight: FontWeight.w700,
       color: CustomColor.dark1Color);
 
   /// Halaman Daftar Konsultasi
-  static var ConsultlabelText = TextStyle(
+  static var consultlabelText = TextStyle(
       fontSize: Dimensions.heading4TextSize,
       color: CustomColor.mainColorDarker,
       fontWeight: FontWeight.w700);
 
-  static var ConsultNextButton = ElevatedButton.styleFrom(
-      primary: CustomColor.mainColor, fixedSize: Size(290, 46));
+  static var consultNextButton = ElevatedButton.styleFrom(
+      primary: CustomColor.mainColor, fixedSize: const Size(290, 46));
 
-  static var ConsultTextButton = TextStyle(
+  static var consultTextButton = TextStyle(
     fontFamily: 'Lexend',
     color: CustomColor.light4Color,
     fontSize: Dimensions.heading5TextSize,
     fontWeight: FontWeight.w700,
   );
 
-  static var ConsultDropdownBox = BoxDecoration(
+  static var consultDropdownBox = BoxDecoration(
     color: Colors.white,
-    border: Border.all(color: Color(0xff00B896)),
+    border: Border.all(color: const Color(0xff00B896)),
     borderRadius: BorderRadius.circular(5),
   );
 
   /// Halaman Daftar Doctor List
-  static var DoctorListTitle = TextStyle(
+  static var doctorListTitle = TextStyle(
       fontSize: Dimensions.bodyLargeTextSize,
       color: CustomColor.mainColorDarker,
       fontWeight: FontWeight.w400);
 
-  static var DoctorListSubTitle = TextStyle(
+  static var doctorListSubTitle = TextStyle(
       fontSize: Dimensions.heading4TextSize,
       color: CustomColor.dark1Color,
       fontWeight: FontWeight.w700);
