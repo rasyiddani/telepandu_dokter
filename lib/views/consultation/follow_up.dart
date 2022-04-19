@@ -377,118 +377,123 @@ class _FollowUpPageState extends State<FollowUpPage> {
       });
     }
 
-    return Scaffold(
-      backgroundColor: CustomColor.light4Color,
-      body: Stack(
-        children: [
-          SafeArea(
-              child: ListView(
-            children: [
-              header(),
-              chooseItem(),
-              const SizedBox(height: 25),
-              textBox(),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: messagesProvider.quickMessages.map((item) {
-                  var index = messagesProvider.quickMessages.indexOf(item);
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: CustomColor.light4Color,
+        body: Stack(
+          children: [
+            SafeArea(
+                child: ListView(
+                  children: [
+                    header(),
+                    chooseItem(),
+                    const SizedBox(height: 25),
+                    textBox(),
+                    const SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: messagesProvider.quickMessages.map((item) {
+                            var index = messagesProvider.quickMessages.indexOf(item);
 
-                  return CardItemCepat(
-                    onTapp: () {
-                      getQuickMessages(messagesProvider
-                              .quickMessages[index].desc
-                              .toString() +
-                          '\n');
-                    },
-                    firstIndex: (index == 0) ? true : false,
-                    quickMessages: item,
-                  );
-                }).toList()),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                  padding: const EdgeInsets.only(left: 35),
-                  child: Text(
-                    "Edukasi Personal",
-                    style: CustomStyle.notifHeaderText,
-                  )),
-              const SizedBox(height: 20),
-              Container(
-                height: 60,
-                width: double.infinity,
-                padding: const EdgeInsets.only(left: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 35),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Colors.black87,
-                    width: 1,
-                  ),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: diseases.map((e) {
-                      return CardItemWithButton(
-                          name: e,
-                          ontap: () {
-                            setState(() {
-                              diseases.remove(e);
-                            });
-                          });
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: messagesProvider.diseases.map((item) {
-                  var index = messagesProvider.diseases.indexOf(item);
+                            return CardItemCepat(
+                              onTapp: () {
+                                getQuickMessages(messagesProvider
+                                    .quickMessages[index].desc
+                                    .toString() +
+                                    '\n');
+                              },
+                              firstIndex: (index == 0) ? true : false,
+                              quickMessages: item,
+                            );
+                          }).toList()),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 35),
+                        child: Text(
+                          "Edukasi Personal",
+                          style: CustomStyle.notifHeaderText,
+                        )),
+                    const SizedBox(height: 20),
+                    Container(
+                      height: 60,
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.symmetric(horizontal: 35),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.black87,
+                          width: 1,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: diseases.map((e) {
+                            return CardItemWithButton(
+                                name: e,
+                                ontap: () {
+                                  setState(() {
+                                    diseases.remove(e);
+                                  });
+                                });
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: messagesProvider.diseases.map((item) {
+                            var index = messagesProvider.diseases.indexOf(item);
 
-                  return CardItemCepat(
-                    onTapp: () {
-                      getItemDiseases(messagesProvider.diseases[index].name);
-                      getIdDiseases(messagesProvider.diseases[index].id);
-                    },
-                    isQuickMessages: false,
-                    firstIndex: (index == 0) ? true : false,
-                    quickMessages: item,
-                  );
-                }).toList()),
-              ),
-              const SizedBox(height: 60),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35),
-                  child: ButtonComponent(
-                      title: "Kirim",
-                      isGreen: true,
-                      onPress: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => popupMessage());
-                        // kirimHandler();
-                        // Navigator.pushNamed(context, '/loading_success');
-                      })),
-              const SizedBox(height: 60),
-            ],
-          )),
-          Visibility(
-              visible: isLoading,
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                height: double.infinity,
-                width: double.infinity,
-                child: const Center(
-                  child: LoadingCircle(),
-                ),
-              ))
-        ],
-      ),
+                            return CardItemCepat(
+                              onTapp: () {
+                                getItemDiseases(messagesProvider.diseases[index].name);
+                                getIdDiseases(messagesProvider.diseases[index].id);
+                              },
+                              isQuickMessages: false,
+                              firstIndex: (index == 0) ? true : false,
+                              quickMessages: item,
+                            );
+                          }).toList()),
+                    ),
+                    const SizedBox(height: 60),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 35),
+                        child: ButtonComponent(
+                            title: "Kirim",
+                            isGreen: true,
+                            onPress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => popupMessage());
+                              // kirimHandler();
+                              // Navigator.pushNamed(context, '/loading_success');
+                            })),
+                    const SizedBox(height: 60),
+                  ],
+                )),
+            Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: const Center(
+                    child: LoadingCircle(),
+                  ),
+                ))
+          ],
+        ),
+      )
     );
   }
 }

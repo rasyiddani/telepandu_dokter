@@ -60,6 +60,8 @@ class ListPatientServices {
       }
 
       return listToday;
+    }if (response.statusCode == 204) {
+      throw Exception('Belum Ada Antrian Pasien');
     }
     if (response.statusCode == 400) {
       await Provider.of<AuthProvider>(context, listen: false).refreshToken();
