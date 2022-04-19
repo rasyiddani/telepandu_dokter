@@ -12,9 +12,8 @@ class _ListPatientPageState extends State<ListPatientPage> {
 
   @override
   void initState() {
-    getApi();
-
     super.initState();
+    getApi();
   }
 
   getApi() async {
