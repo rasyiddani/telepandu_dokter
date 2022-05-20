@@ -158,8 +158,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2500));
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 30)));
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;

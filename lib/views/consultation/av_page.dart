@@ -349,7 +349,7 @@ class _AvPageState extends State<AvPage> {
       );
     }
 
-    return Scaffold(
+    return WillPopScope(child: Scaffold(
       backgroundColor: CustomColor.light4Color,
       body: Stack(
         children: [
@@ -370,6 +370,8 @@ class _AvPageState extends State<AvPage> {
               ))
         ],
       ),
-    );
+    ), onWillPop: () async {
+      return false;
+    },);
   }
 }

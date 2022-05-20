@@ -7,7 +7,6 @@ class ChatModel {
   String? rules;
   String? room;
   DateTime? createdAt;
-  DateTime? updatedAt;
 
   ChatModel({
     required this.message,
@@ -16,7 +15,6 @@ class ChatModel {
     required this.rules,
     required this.room,
     required this.createdAt,
-    required this.updatedAt,
   });
 
   ChatModel.fromJson(Map<String, dynamic> json) {
@@ -26,7 +24,6 @@ class ChatModel {
     rules = json['rules'];
     room = json['room'];
     createdAt = DateTime.parse(json['createdAt']);
-    updatedAt = DateTime.parse(json['updatedAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -37,7 +34,6 @@ class ChatModel {
       'rules': rules,
       'room': room,
       'createdAt': createdAt.toString(),
-      'updatedAt': updatedAt.toString()
     };
   }
 }
