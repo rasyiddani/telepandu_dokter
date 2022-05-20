@@ -77,16 +77,16 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ],
             ),
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/notification');
-              },
-              child: Icon(
-                Icons.notifications,
-                size: 32,
-                color: CustomColor.mainColor,
-              ),
-            )
+            // InkWell(
+            //   onTap: () {
+            //     Navigator.pushNamed(context, '/notification');
+            //   },
+            //   child: Icon(
+            //     Icons.notifications,
+            //     size: 32,
+            //     color: CustomColor.mainColor,
+            //   ),
+            // )
           ],
         ),
       );
