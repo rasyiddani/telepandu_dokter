@@ -1,7 +1,9 @@
 part of '../views.dart';
 
 class NewPasswordPage extends StatefulWidget {
-  const NewPasswordPage({Key? key}) : super(key: key);
+  const NewPasswordPage({Key? key, required this.email}) : super(key: key);
+
+  final String email;
 
   @override
   State<NewPasswordPage> createState() => _NewPasswordPageState();
@@ -134,9 +136,70 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                           const SizedBox(height: 60),
                           ButtonComponent(
                               title: "KONFIRMASI",
-                              onPress: () {
+                              onPress: () async{
                                 if (_formKey.currentState!.validate()) {
-                                  
+                                  setState((){
+                                    isLoading= true;
+                                  });
+                                  // print("status ${isLoading}");
+                                  if (_controllerPassword?.text ==
+                                      _controllerRepassword?.text) {
+                                    await Provider.of<AuthProvider>(context, listen: false).resetPassword(widget.email, _controllerPassword!.text);
+                                    setState((){
+                                      isLoading= false;
+                                    });
+                                    var status = Provider.of<AuthProvider>(context, listen: false).statusReset;
+                                    if(status){
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password Berhasil Diganti"),
+                                        backgroundColor: Colors.green,));
+                                      Navigator.pushReplacementNamed(
+                                          context, '/login');
+                                    }else{
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                              const Text("Pemberitahuan"),
+                                              content: const Text(
+                                                  "Maaf Anda Gagal Reset Password, Mohon Cek Kembali Email Anda"),
+                                              actions: [
+                                                TextButton(
+                                                    child:
+                                                    const Text('Kembali'),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    }),
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  }else{
+                                    setState((){
+                                      isLoading= false;
+                                    });
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                            const Text("Pemberitahuan"),
+                                            content: const Text(
+                                                "Masukkan Password Yang Sama"),
+                                            actions: [
+                                              TextButton(
+                                                  child:
+                                                  const Text('Kembali'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  }),
+                                            ],
+                                          );
+                                        });
+                                  }
+
                                 }
                               }),
                         ],
