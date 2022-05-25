@@ -1,7 +1,7 @@
 part of '../views.dart';
 
 class NewPasswordPage extends StatefulWidget {
-  const NewPasswordPage({Key? key, required this.email}) : super(key: key);
+  NewPasswordPage({Key? key, required this.email}) : super(key: key);
 
   final String email;
 
@@ -48,15 +48,15 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Kami telah mengirim link ganti kata sandi melalui alamat email anda.",
-                      style: CustomStyle.titleText
-                          .copyWith(fontSize: Dimensions.bodyLargeTextSize),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: Text(
+                  //     "Kami telah mengirim link ganti kata sandi melalui alamat email anda.",
+                  //     style: CustomStyle.titleText
+                  //         .copyWith(fontSize: Dimensions.bodyLargeTextSize),
+                  //     textAlign: TextAlign.center,
+                  //   ),
+                  // ),
                   const SizedBox(height: 40),
                   Form(
                       key: _formKey,
@@ -125,10 +125,10 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                 if (value.length < 8) {
                                   return "Kata Sandi Minimal 8 digit";
                                 }
-                                if (_controllerRepassword !=
-                                    _controllerPassword) {
-                                  return "Kata Sandi Tidak Cocok";
-                                }
+                                // if (_controllerRepassword !=
+                                //     _controllerPassword) {
+                                //   return "Kata Sandi Tidak Cocok";
+                                // }
                                 return null;
                               }
                             },
@@ -141,7 +141,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                   setState((){
                                     isLoading= true;
                                   });
-                                  // print("status ${isLoading}");
+                                  print("status ${isLoading}");
                                   if (_controllerPassword?.text ==
                                       _controllerRepassword?.text) {
                                     await Provider.of<AuthProvider>(context, listen: false).resetPassword(widget.email, _controllerPassword!.text);
