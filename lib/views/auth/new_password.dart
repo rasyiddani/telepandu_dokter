@@ -1,7 +1,7 @@
 part of '../views.dart';
 
 class NewPasswordPage extends StatefulWidget {
-  NewPasswordPage({Key? key, required this.email}) : super(key: key);
+  const NewPasswordPage({Key? key, required this.email}) : super(key: key);
 
   final String email;
 
@@ -141,7 +141,6 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                   setState((){
                                     isLoading= true;
                                   });
-                                  print("status ${isLoading}");
                                   if (_controllerPassword?.text ==
                                       _controllerRepassword?.text) {
                                     await Provider.of<AuthProvider>(context, listen: false).resetPassword(widget.email, _controllerPassword!.text);

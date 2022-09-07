@@ -79,11 +79,9 @@ class MessagesServices {
       headers: headers,
     );
 
-    print(id);
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
-      print(data);
+
       late MessagesModels dataQuickMessage = MessagesModels.fromJson(data);
 
       return dataQuickMessage;
@@ -115,12 +113,8 @@ class MessagesServices {
       body: body,
     );
 
-    print(response.statusCode);
-    print(body);
-
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
-      print(data);
       MessagesModels editQuick = MessagesModels.fromJson(data);
 
       return editQuick;
@@ -150,12 +144,9 @@ class MessagesServices {
       body: body,
     );
 
-    print(response.statusCode);
-    print(body);
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
+
       MessagesModels deleteQuick = MessagesModels.fromJson(data);
 
       return deleteQuick;
@@ -178,8 +169,6 @@ class MessagesServices {
       url,
       headers: headers,
     );
-    
-    print("${response.statusCode} resp");
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['penyakit'];

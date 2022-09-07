@@ -18,8 +18,6 @@ class ListPatientServices {
       headers: headers,
     );
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       late ListPatientModel queue = ListPatientModel.fromJson(data);
@@ -91,8 +89,6 @@ class ListPatientServices {
       headers: headers,
       body: body,
     );
-
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['jadwal'];

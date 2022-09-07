@@ -43,12 +43,8 @@ class _AvPageState extends State<AvPage> {
       isLoading = true;
     });
 
-    if (await Provider.of<ConsultProviders>(context, listen: false)
-        .acceptConsult(widget.id)) {
-      print("berhasil");
-    } else {
-      print("gagal");
-    }
+    await Provider.of<ConsultProviders>(context, listen: false)
+        .acceptConsult(widget.id);
 
     setState(() {
       isLoading = false;
@@ -60,10 +56,6 @@ class _AvPageState extends State<AvPage> {
   Future<void> initAgora() async {
     // retrieve permissions
     await [Permission.microphone, Permission.camera].request();
-
-    print("Chanel name: $chanelNameRtc");
-    print("app ID: $appId");
-    print("token rtc: $tokenRtc");
 
     //create the engine
     _engine = await RtcEngine.create(appId);

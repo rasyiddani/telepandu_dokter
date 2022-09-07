@@ -29,20 +29,20 @@ class _ProfileMenuPageState extends State<ProfileMenuPage> {
     showAlertDialog(BuildContext context) {
       // set up the button
       Widget cancelButton = TextButton(
-        child: Text("Batal"),
+        child: const Text("Batal"),
         onPressed: () {
           Navigator.pop(context);
         },
       );
       Widget continueButton = TextButton(
-        child: Text("Yakin"),
+        child: const Text("Yakin"),
         onPressed: logoutHandler,
       );
 
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
-        title: Text("Peringatan"),
-        content: Text("Anda Yakin Ingin Keluar?"),
+        title: const Text("Peringatan"),
+        content: const Text("Anda Yakin Ingin Keluar?"),
         actions: [
           cancelButton,
           continueButton,

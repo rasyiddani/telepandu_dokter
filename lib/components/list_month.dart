@@ -53,7 +53,7 @@ class ListMonthComponent extends StatelessWidget {
                 style: CustomStyle.doctorListSubTitle.copyWith(
                     fontSize: Dimensions.heading5TextSize,
                     fontWeight: FontWeight.w400),
-              ) : SizedBox(),
+              ) : const SizedBox(),
               Text(
                 "${listMonth.age} Tahun",
                 style: CustomStyle.doctorListSubTitle.copyWith(

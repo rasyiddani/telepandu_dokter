@@ -48,8 +48,6 @@ class _DashboardPageState extends State<DashboardPage> {
       nameDoctorResult = splitedName[0];
     });
 
-    print(nameDoctorResult);
-
     //widget Header
     Widget header() {
       return Padding(
@@ -191,7 +189,7 @@ Container buttonInfo(String title, String textButton, Color textColor,
               color: CustomColor.mainColor,
               fontWeight: FontWeight.w400),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         ElevatedButton(

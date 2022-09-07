@@ -41,7 +41,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
     setState(() {
       dataLab = listData;
     });
-    print("data lab : $dataLab");
   }
 
   getApi() async {
@@ -159,7 +158,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 30)));
+        lastDate: DateTime.now().add(const Duration(days: 30)));
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;

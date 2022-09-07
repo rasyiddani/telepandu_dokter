@@ -12,7 +12,6 @@ class ChatService {
           .snapshots()
           .map((QuerySnapshot list) {
         var result = list.docs.map<ChatModel>((DocumentSnapshot message) {
-          print("chatku: ${message.data()}");
           return ChatModel.fromJson(message.data() as Map<String, dynamic>);
         }).toList();
 

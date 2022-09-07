@@ -12,15 +12,9 @@ class ResetPasswordService {
     var response = await http.post(Uri.parse(resetPassword),
         headers: headerObject, body: bodyObject);
 
-    print("Hasil cek user: ${response.statusCode}");
-    print("Hasil cek user: ${response.body}");
-
-
     if (response.statusCode == 200) {
-      print("password berhasil diupdate");
       return true;
     } else {
-      print("password gagal diupdate");
       return false;
     }
   }
