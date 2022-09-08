@@ -25,10 +25,10 @@ class _DashboardPageState extends State<DashboardPage> {
       isLoading = true;
     });
 
-    await Provider.of<ListPatientProvider>(context, listen: false)
-        .getDataQueue(context);
 
     await Provider.of<AuthProvider>(context, listen:false).getUserProfile();
+    await Provider.of<ListPatientProvider>(context, listen: false)
+        .ambilDataKuota();
 
     setState(() {
       isLoading = false;
@@ -136,7 +136,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   isLoading
                       ? const CardHariIniSkeleton()
                       : KonsulHariComponent(
-                          listDataQueue: listPatientProvider.queue),
+                          listDataQueue: listPatientProvider.kuota),
                   // Visibility(
                   //   // visible: isConsultStarted,
                   //   visible: true,

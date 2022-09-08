@@ -51,8 +51,8 @@ class ListPatientModel {
     phone = json['phone'];
     gender = json['sex'];
     queueTotal = json['kuota'];
-    queuNow = json['antrian_saat_ini'];
-    queu = json['jumlah_antrian'];
+    queuNow = json['antrian_saat_ini'] ?? 0;
+    queu = json['jumlah_antrian'] ?? 0;
     statusCode = json['statusCode'];
   }
 

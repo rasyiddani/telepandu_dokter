@@ -1,7 +1,7 @@
 part of 'components.dart';
 
 class KonsulHariComponent extends StatelessWidget {
-  final ListPatientModel? listDataQueue;
+  final KuotaModel? listDataQueue;
   const KonsulHariComponent({Key? key, required this.listDataQueue})
       : super(key: key);
 
@@ -54,9 +54,9 @@ class KonsulHariComponent extends StatelessWidget {
                 "Kuota Hari Ini :",
                 style: CustomStyle.consultTextButton
                     .copyWith(fontWeight: FontWeight.normal),
-              ),
-              Text((listDataQueue?.queu == null) ? "0/30 Pasien" :
-                  "${listDataQueue?.queu}/${listDataQueue?.queueTotal} Pasien",
+              ), 
+              Text((listDataQueue?.queue == null) ? "0/30 Pasien" :
+                  "${listDataQueue?.queue}/${listDataQueue?.queueTotal} Pasien",
                   style: CustomStyle.consultTextButton)
             ],
           )

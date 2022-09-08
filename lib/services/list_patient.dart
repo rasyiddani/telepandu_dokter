@@ -3,7 +3,7 @@ part of 'services.dart';
 class ListPatientServices {
   late SharedPreferences sharedPreferences;
 
-  Future<ListPatientModel> getDataQueue(context) async {
+  Future<ListPatientModel> getDataQueue() async {
     sharedPreferences = await SharedPreferences.getInstance();
     var finalToken = sharedPreferences.getString("token");
 
@@ -20,17 +20,35 @@ class ListPatientServices {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      late ListPatientModel queue = ListPatientModel.fromJson(data);
+      ListPatientModel queue = ListPatientModel.fromJson(data);
       queue.queu = data['jumlah_antrian'];
       queue.queueTotal = data['kuota'];
 
       return queue;
     }
-    if (response.statusCode == 400) {
-      await Provider.of<AuthProvider>(context, listen: false).refreshToken();
-      await Provider.of<ListPatientServices>(context, listen: false)
-          .getDataQueue(context);
-      throw Exception('Token Refresh');
+    throw Exception('Gagal Dapatkan Data');
+  }
+
+  Future<KuotaModel> getDataKuota() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    var finalToken = sharedPreferences.getString("token");
+
+    var url = Uri.parse(baseUrl + 'ambil-list-pasien-konsul');
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $finalToken',
+    };
+
+    var response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      KuotaModel queue = KuotaModel.fromJson(data);
+
+      return queue;
     }
     throw Exception('Gagal Dapatkan Data');
   }

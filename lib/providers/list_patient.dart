@@ -14,10 +14,10 @@ class ListPatientProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getDataQueue(context) async {
+  Future<void> getDataQueue() async {
     try {
       ListPatientModel queue =
-          await ListPatientServices().getDataQueue(context);
+          await ListPatientServices().getDataQueue();
 
       _queue = queue;
     } catch (e) {
@@ -65,5 +65,20 @@ class ListPatientProvider with ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  /////////////////////////////////////////////////////////////
+  KuotaModel? _kuota;
+  KuotaModel? get kuota => _kuota; 
+
+  Future<void> ambilDataKuota() async {
+    try {
+      KuotaModel kuota = await ListPatientServices().getDataKuota();
+      _kuota = kuota;
+    } catch (e) {
+      print("pesan error");
+      print(e);
+    }
+    notifyListeners();
   }
 }
