@@ -21,7 +21,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
   void initState() {
     getApi();
     getDataLab();
-
+    intruksiController.text = selectQuickMessage;
     super.initState();
   }
 
@@ -291,6 +291,11 @@ class _FollowUpPageState extends State<FollowUpPage> {
           hintStyle: CustomStyle.profileTextButton.copyWith(
               fontWeight: FontWeight.w400, color: CustomColor.dark3Color),
         ),
+        onEditingComplete: () {
+          setState(() {
+            selectQuickMessage = intruksiController.text;
+          });
+        },
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Mohon Diisi Form Yang Kosong";
@@ -356,25 +361,25 @@ class _FollowUpPageState extends State<FollowUpPage> {
   Widget build(BuildContext context) {
     MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
 
-    intruksiController.text = selectQuickMessage;
+    // intruksiController.text = selectQuickMessage;
 
-    getItemDiseases(item) {
-      setState(() {
-        diseases.add(item);
-      });
-    }
-
-    getIdDiseases(item) {
-      setState(() {
-        itemDiseases.add(item);
-      });
-    }
-
-    getQuickMessages(String item) {
-      setState(() {
-        selectQuickMessage = intruksiController.text + item;
-      });
-    }
+    // getItemDiseases(item) {
+    //   setState(() {
+    //     diseases.add(item);
+    //   });
+    // }
+    //
+    // getIdDiseases(item) {
+    //   setState(() {
+    //     itemDiseases.add(item);
+    //   });
+    // }
+    //
+    // getQuickMessages(String item) {
+    //   setState(() {
+    //     selectQuickMessage = intruksiController.text + item;
+    //   });
+    // }
 
     return WillPopScope(
       onWillPop: ()async{
@@ -399,11 +404,18 @@ class _FollowUpPageState extends State<FollowUpPage> {
                             var index = messagesProvider.quickMessages.indexOf(item);
 
                             return CardItemCepat(
-                              onTapp: () {
-                                getQuickMessages(messagesProvider
-                                    .quickMessages[index].desc
-                                    .toString() +
-                                    '\n');
+                              onTap: () {
+                                  setState(() {
+                                    selectQuickMessage = intruksiController.text + messagesProvider
+                                        .quickMessages[index].desc
+                                        .toString() +
+                                        '\n';
+                                    intruksiController.text = selectQuickMessage;
+                                  });
+                                // getQuickMessages(messagesProvider
+                                //     .quickMessages[index].desc
+                                //     .toString() +
+                                //     '\n');
                               },
                               firstIndex: (index == 0) ? true : false,
                               quickMessages: item,
@@ -452,11 +464,19 @@ class _FollowUpPageState extends State<FollowUpPage> {
                       child: Row(
                           children: messagesProvider.diseases.map((item) {
                             var index = messagesProvider.diseases.indexOf(item);
-
+                            setState(() {
+                              selectQuickMessage = intruksiController.text;
+                            });
                             return CardItemCepat(
-                              onTapp: () {
-                                getItemDiseases(messagesProvider.diseases[index].name);
-                                getIdDiseases(messagesProvider.diseases[index].id);
+                              onTap: () {
+                                // debugPrint(selectQuickMessage);
+                                // debugPrint(intruksiController.text);
+                                  setState(() {
+                                    diseases.add(messagesProvider.diseases[index].name);
+                                    itemDiseases.add(messagesProvider.diseases[index].id);
+                                  });
+                                // getItemDiseases(messagesProvider.diseases[index].name);
+                                // getIdDiseases(messagesProvider.diseases[index].id);
                               },
                               isQuickMessages: false,
                               firstIndex: (index == 0) ? true : false,
