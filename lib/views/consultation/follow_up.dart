@@ -21,7 +21,7 @@ class _FollowUpPageState extends State<FollowUpPage> {
   void initState() {
     getApi();
     getDataLab();
-
+    intruksiController.text = selectQuickMessage;
     super.initState();
   }
 
@@ -41,7 +41,6 @@ class _FollowUpPageState extends State<FollowUpPage> {
     setState(() {
       dataLab = listData;
     });
-    print("data lab : $dataLab");
   }
 
   getApi() async {
@@ -158,8 +157,8 @@ class _FollowUpPageState extends State<FollowUpPage> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2500));
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 30)));
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
@@ -292,6 +291,11 @@ class _FollowUpPageState extends State<FollowUpPage> {
           hintStyle: CustomStyle.profileTextButton.copyWith(
               fontWeight: FontWeight.w400, color: CustomColor.dark3Color),
         ),
+        onEditingComplete: () {
+          setState(() {
+            selectQuickMessage = intruksiController.text;
+          });
+        },
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Mohon Diisi Form Yang Kosong";
@@ -357,138 +361,158 @@ class _FollowUpPageState extends State<FollowUpPage> {
   Widget build(BuildContext context) {
     MessagesProvider messagesProvider = Provider.of<MessagesProvider>(context);
 
-    intruksiController.text = selectQuickMessage;
+    // intruksiController.text = selectQuickMessage;
 
-    getItemDiseases(item) {
-      setState(() {
-        diseases.add(item);
-      });
-    }
+    // getItemDiseases(item) {
+    //   setState(() {
+    //     diseases.add(item);
+    //   });
+    // }
+    //
+    // getIdDiseases(item) {
+    //   setState(() {
+    //     itemDiseases.add(item);
+    //   });
+    // }
+    //
+    // getQuickMessages(String item) {
+    //   setState(() {
+    //     selectQuickMessage = intruksiController.text + item;
+    //   });
+    // }
 
-    getIdDiseases(item) {
-      setState(() {
-        itemDiseases.add(item);
-      });
-    }
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: CustomColor.light4Color,
+        body: Stack(
+          children: [
+            SafeArea(
+                child: ListView(
+                  children: [
+                    header(),
+                    chooseItem(),
+                    const SizedBox(height: 25),
+                    textBox(),
+                    const SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: messagesProvider.quickMessages.map((item) {
+                            var index = messagesProvider.quickMessages.indexOf(item);
 
-    getQuickMessages(String item) {
-      setState(() {
-        selectQuickMessage = intruksiController.text + item;
-      });
-    }
-
-    return Scaffold(
-      backgroundColor: CustomColor.light4Color,
-      body: Stack(
-        children: [
-          SafeArea(
-              child: ListView(
-            children: [
-              header(),
-              chooseItem(),
-              const SizedBox(height: 25),
-              textBox(),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: messagesProvider.quickMessages.map((item) {
-                  var index = messagesProvider.quickMessages.indexOf(item);
-
-                  return CardItemCepat(
-                    onTapp: () {
-                      getQuickMessages(messagesProvider
-                              .quickMessages[index].desc
-                              .toString() +
-                          '\n');
-                    },
-                    firstIndex: (index == 0) ? true : false,
-                    quickMessages: item,
-                  );
-                }).toList()),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                  padding: const EdgeInsets.only(left: 35),
-                  child: Text(
-                    "Edukasi Personal",
-                    style: CustomStyle.notifHeaderText,
-                  )),
-              const SizedBox(height: 20),
-              Container(
-                height: 60,
-                width: double.infinity,
-                padding: const EdgeInsets.only(left: 5),
-                margin: const EdgeInsets.symmetric(horizontal: 35),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(
-                    color: Colors.black87,
-                    width: 1,
-                  ),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: diseases.map((e) {
-                      return CardItemWithButton(
-                          name: e,
-                          ontap: () {
+                            return CardItemCepat(
+                              onTap: () {
+                                  setState(() {
+                                    selectQuickMessage = intruksiController.text + messagesProvider
+                                        .quickMessages[index].desc
+                                        .toString() +
+                                        '\n';
+                                    intruksiController.text = selectQuickMessage;
+                                  });
+                                // getQuickMessages(messagesProvider
+                                //     .quickMessages[index].desc
+                                //     .toString() +
+                                //     '\n');
+                              },
+                              firstIndex: (index == 0) ? true : false,
+                              quickMessages: item,
+                            );
+                          }).toList()),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 35),
+                        child: Text(
+                          "Edukasi Personal",
+                          style: CustomStyle.notifHeaderText,
+                        )),
+                    const SizedBox(height: 20),
+                    Container(
+                      height: 60,
+                      width: double.infinity,
+                      padding: const EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.symmetric(horizontal: 35),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.black87,
+                          width: 1,
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: diseases.map((e) {
+                            return CardItemWithButton(
+                                name: e,
+                                ontap: () {
+                                  setState(() {
+                                    diseases.remove(e);
+                                  });
+                                });
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: messagesProvider.diseases.map((item) {
+                            var index = messagesProvider.diseases.indexOf(item);
                             setState(() {
-                              diseases.remove(e);
+                              selectQuickMessage = intruksiController.text;
                             });
-                          });
-                    }).toList(),
+                            return CardItemCepat(
+                              onTap: () {
+                                // debugPrint(selectQuickMessage);
+                                // debugPrint(intruksiController.text);
+                                  setState(() {
+                                    diseases.add(messagesProvider.diseases[index].name);
+                                    itemDiseases.add(messagesProvider.diseases[index].id);
+                                  });
+                                // getItemDiseases(messagesProvider.diseases[index].name);
+                                // getIdDiseases(messagesProvider.diseases[index].id);
+                              },
+                              isQuickMessages: false,
+                              firstIndex: (index == 0) ? true : false,
+                              quickMessages: item,
+                            );
+                          }).toList()),
+                    ),
+                    const SizedBox(height: 60),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 35),
+                        child: ButtonComponent(
+                            title: "Kirim",
+                            isGreen: true,
+                            onPress: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => popupMessage());
+                              // kirimHandler();
+                              // Navigator.pushNamed(context, '/loading_success');
+                            })),
+                    const SizedBox(height: 60),
+                  ],
+                )),
+            Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: const Center(
+                    child: LoadingCircle(),
                   ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                    children: messagesProvider.diseases.map((item) {
-                  var index = messagesProvider.diseases.indexOf(item);
-
-                  return CardItemCepat(
-                    onTapp: () {
-                      getItemDiseases(messagesProvider.diseases[index].name);
-                      getIdDiseases(messagesProvider.diseases[index].id);
-                    },
-                    isQuickMessages: false,
-                    firstIndex: (index == 0) ? true : false,
-                    quickMessages: item,
-                  );
-                }).toList()),
-              ),
-              const SizedBox(height: 60),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35),
-                  child: ButtonComponent(
-                      title: "Kirim",
-                      isGreen: true,
-                      onPress: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) => popupMessage());
-                        // kirimHandler();
-                        // Navigator.pushNamed(context, '/loading_success');
-                      })),
-              const SizedBox(height: 60),
-            ],
-          )),
-          Visibility(
-              visible: isLoading,
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                height: double.infinity,
-                width: double.infinity,
-                child: const Center(
-                  child: LoadingCircle(),
-                ),
-              ))
-        ],
-      ),
+                ))
+          ],
+        ),
+      )
     );
   }
 }

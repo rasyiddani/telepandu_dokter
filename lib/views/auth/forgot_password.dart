@@ -87,7 +87,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               title: "KIRIM",
                               onPress: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.pushNamed(context, '/new_password');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewPasswordPage(
+                                              email:
+                                              _controllerEmail!.text)));
+                                  // Navigator.pushNamed(context, '/new_password');
                                 }
                               }),
                         ],

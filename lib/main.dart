@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:telemedicine_doctor/providers/providers.dart';
 import 'package:telemedicine_doctor/views/views.dart';
@@ -23,14 +24,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ConsultProviders()),
         ChangeNotifierProvider(create: (context) => MessagesProvider()),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: '/',
           routes: {
             '/': (context) => const SplashScreen(),
             '/login': (context) => const LoginPage(),
             '/forgot_password': (context) => const ForgotPasswordPage(),
-            '/new_password': (context) => const NewPasswordPage(),
+            // '/new_password': (context) =>  NewPasswordPage(),
             '/dashboard': (context) => const DashboardPage(),
             '/profile_menu': (context) => const ProfileMenuPage(),
             '/user_profile': (context) => const UserProfile(),

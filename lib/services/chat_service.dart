@@ -9,11 +9,9 @@ class ChatService {
       return firestore
           .collection('chat')
           .where('room', isEqualTo: room)
-          // .where('rules', isEqualTo: "doctor")
           .snapshots()
           .map((QuerySnapshot list) {
         var result = list.docs.map<ChatModel>((DocumentSnapshot message) {
-          print("chatku: ${message.data()}");
           return ChatModel.fromJson(message.data() as Map<String, dynamic>);
         }).toList();
 
@@ -42,7 +40,6 @@ class ChatService {
         'message': message,
         'room': room,
         'createdAt': DateTime.now().toString(),
-        'updatedAt': DateTime.now().toString(),
       }).then((value) => print("Chat berhasil disimpan!!"));
     } catch (e) {
       throw Exception(e);

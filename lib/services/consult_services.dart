@@ -24,11 +24,8 @@ class ConsultServices {
       body: body,
     );
 
-    print('${response.statusCode} terima konsul');
-
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
-      print(data);
       late ConsultModels accept = ConsultModels.fromJson(data);
 
       return accept;
@@ -57,11 +54,11 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print('${response.statusCode} lanjut follow up');
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
+      
+      return data;
     } else {
       throw Exception('Gagal Follow Up Consult');
     }
@@ -87,11 +84,9 @@ class ConsultServices {
       headers: headers,
       body: body,
     );
-    print('${response.statusCode} konsul selesai');
 
     if (response.statusCode == 202) {
       var data = jsonDecode(response.body);
-      print(data);
 
       return data;
     } else {
@@ -119,11 +114,8 @@ class ConsultServices {
       body: body,
     );
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
       late ConsultModels skip = ConsultModels.fromJson(data);
 
       return skip;
@@ -154,8 +146,6 @@ class ConsultServices {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-
-      print(data);
 
       return data;
     } else {
@@ -200,12 +190,8 @@ class ConsultServices {
       body: body,
     );
 
-    print("status buat intruksi: $resepObat");
-    print("status buat intruksi: $body");
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
 
       return data;
     } else {
@@ -228,16 +214,12 @@ class ConsultServices {
       headers: headers,
     );
 
-    print("lab servis code: ${response.statusCode}");
-   
-
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body)['layanan'];
       List<ConsultModels> labServices = [];
       for (var item in data) {
         labServices.add(ConsultModels.fromJson(item));
       }
-       print("lab servis: $data");
 
       return labServices;
     }

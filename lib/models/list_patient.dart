@@ -7,6 +7,7 @@ class ListPatientModel {
   String? email;
   String? sip;
   String? branch;
+  String? status;
   String? photo;
   int? queueNumber;
   int? age;
@@ -24,6 +25,7 @@ class ListPatientModel {
     required this.email,
     required this.sip,
     required this.branch,
+    required this.status,
     required this.photo,
     required this.queueNumber,
     required this.age,
@@ -42,14 +44,15 @@ class ListPatientModel {
     email = json['email'];
     sip = json['sip'];
     photo = json['image'];
+    status = json['status'];
     branch = json['occupation'];
     queueNumber = json['queue_number'];
     age = json['age'];
     phone = json['phone'];
     gender = json['sex'];
     queueTotal = json['kuota'];
-    queuNow = json['antrian_saat_ini'];
-    queu = json['jumlah_antrian'];
+    queuNow = json['antrian_saat_ini'] ?? 0;
+    queu = json['jumlah_antrian'] ?? 0;
     statusCode = json['statusCode'];
   }
 
@@ -63,6 +66,7 @@ class ListPatientModel {
       'image' : photo,
       'occupation': branch,
       'queue_number': queueNumber,
+      'status': status,
       'age': age,
       'phone': phone,
       'sex': gender,

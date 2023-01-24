@@ -30,13 +30,16 @@ class ListMonthComponent extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "${listMonth.name}",
-                style: CustomStyle.doctorListSubTitle
-                    .copyWith(fontSize: Dimensions.heading5TextSize),
+              Expanded(
+                child: Text(
+                  "${listMonth.name}",
+                  style: CustomStyle.doctorListSubTitle
+                      .copyWith(fontSize: Dimensions.heading5TextSize),
+                  overflow: TextOverflow.ellipsis
+                ),
               ),
               Text(
-                "${listMonth.queueNumber}",
+                "No Antrian : ${listMonth.queueNumber}",
                 style: CustomStyle.doctorListSubTitle
                     .copyWith(fontSize: Dimensions.heading5TextSize),
               )
@@ -45,14 +48,14 @@ class ListMonthComponent extends StatelessWidget {
           const SizedBox(height: 3),
           Row(
             children: [
-              Text(
+              (listMonth.gender != "") ? Text(
                 "${listMonth.gender}, ",
                 style: CustomStyle.doctorListSubTitle.copyWith(
                     fontSize: Dimensions.heading5TextSize,
                     fontWeight: FontWeight.w400),
-              ),
+              ) : const SizedBox(),
               Text(
-                "${listMonth.age}",
+                "${listMonth.age} Tahun",
                 style: CustomStyle.doctorListSubTitle.copyWith(
                     fontSize: Dimensions.heading5TextSize,
                     fontWeight: FontWeight.w400),

@@ -111,8 +111,6 @@ class ConsultProviders with ChangeNotifier {
     int? labId,
   ) async {
     try {
-      print(id);
-      print(resepObat);
       ConsultModels instruction = await ConsultServices().makeInstructions(
         id,
         instructions,

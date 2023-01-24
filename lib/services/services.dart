@@ -12,5 +12,6 @@ part 'consult_services.dart';
 part 'list_patient.dart';
 part 'messages_services.dart';
 part 'chat_service.dart';
+part 'reset_password.dart';
 
 String baseUrl = 'http://telepandu.id/api/';

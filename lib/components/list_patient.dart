@@ -74,6 +74,30 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
       );
     }
 
+    Widget buttonLanjut(Function ontap) {
+      return InkWell(
+        onTap: () {
+          ontap();
+        },
+        child: Container(
+          height: 46,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: CustomColor.dark3Color,
+          ),
+          child: Center(
+            child: Text(
+              "Lanjut",
+              style: CustomStyle.profileTextButton
+                  .copyWith(color: CustomColor.errorColor),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      );
+    }
+
     //widget button with skip
     Widget buttonWithSkip(id, namePasien, phone) {
       return Row(
@@ -180,8 +204,29 @@ class _ListPatientComponentState extends State<ListPatientComponent> {
           ),
           const SizedBox(height: 30),
           widget.isIndex0
-              ? buttonWithSkip(widget.listToday.id, widget.listToday.name,
-                  widget.listToday.phone)
+              ? widget.listToday.status == 'in queue'
+                  ? buttonWithSkip(widget.listToday.id, widget.listToday.name,
+                      widget.listToday.phone)
+                  : widget.listToday.status == 'with doctor'
+                      ? buttonLanjut(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AvPage(
+                                  namePasien: widget.listToday.name!,
+                                  id: widget.listToday.id!,
+                                  phone: widget.listToday.phone!,
+                                ),
+                              ));
+                        })
+                      : buttonLanjut(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    FollowUpPage(id: widget.listToday.id!),
+                              ));
+                        })
               : button(),
         ],
       ),
