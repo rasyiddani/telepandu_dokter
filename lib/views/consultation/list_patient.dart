@@ -4,7 +4,7 @@ class ListPatientPage extends StatefulWidget {
   const ListPatientPage({Key? key}) : super(key: key);
 
   @override
-  _ListPatientPageState createState() => _ListPatientPageState();
+  State<ListPatientPage> createState() => _ListPatientPageState();
 }
 
 class _ListPatientPageState extends State<ListPatientPage> {
@@ -34,24 +34,24 @@ class _ListPatientPageState extends State<ListPatientPage> {
     ListPatientProvider listPatientProvider =
         Provider.of<ListPatientProvider>(context);
 
-    Widget popupMessageSkip() {
-      return AlertDialog(
-        content: const Text("Apakah anda yakin skip pasien?"),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              getApi();
-              Navigator.pop(context, 'Cancel');
-            },
-            child: const Text('Ya'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Batal', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      );
-    }
+    // Widget popupMessageSkip() {
+    //   return AlertDialog(
+    //     content: const Text("Apakah anda yakin skip pasien?"),
+    //     actions: [
+    //       TextButton(
+    //         onPressed: () async {
+    //           getApi();
+    //           Navigator.pop(context, 'Cancel');
+    //         },
+    //         child: const Text('Ya'),
+    //       ),
+    //       TextButton(
+    //         onPressed: () => Navigator.pop(context, 'Cancel'),
+    //         child: const Text('Batal', style: TextStyle(color: Colors.red)),
+    //       ),
+    //     ],
+    //   );
+    // }
 
     return Scaffold(
         body: SafeArea(
@@ -60,8 +60,8 @@ class _ListPatientPageState extends State<ListPatientPage> {
           const HeaderComponent(isBgWhite: false, title: "Daftar Pasien"),
           Expanded(
             child: isLoading
-                ? Column(
-                    children: const [
+                ? const Column(
+                    children: [
                       ListTodaySkeleton(),
                       ListTodaySkeleton(),
                     ],

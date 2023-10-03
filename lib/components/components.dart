@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:telemedicine_doctor/models/models.dart';
 import 'package:telemedicine_doctor/providers/providers.dart';
 import 'package:telemedicine_doctor/utils/utils.dart';
+import 'package:telemedicine_doctor/views/consultation/av_page.dart';
 import 'package:telemedicine_doctor/views/views.dart';
 
 part 'avatar_profile.dart';

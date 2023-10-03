@@ -4,7 +4,7 @@ class ListMonthPage extends StatefulWidget {
   const ListMonthPage({Key? key}) : super(key: key);
 
   @override
-  _ListMonthPageState createState() => _ListMonthPageState();
+  State<ListMonthPage> createState() => _ListMonthPageState();
 }
 
 class _ListMonthPageState extends State<ListMonthPage> {

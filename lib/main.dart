@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:telemedicine_doctor/providers/providers.dart';
+import 'package:telemedicine_doctor/views/consultation/av_page.dart';
 import 'package:telemedicine_doctor/views/views.dart';
 
 void main() async {

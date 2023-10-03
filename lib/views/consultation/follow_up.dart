@@ -5,7 +5,7 @@ class FollowUpPage extends StatefulWidget {
   const FollowUpPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _FollowUpPageState createState() => _FollowUpPageState();
+  State<FollowUpPage> createState() => _FollowUpPageState();
 }
 
 class _FollowUpPageState extends State<FollowUpPage> {

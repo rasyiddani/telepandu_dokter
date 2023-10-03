@@ -1,9 +1,22 @@
-part of '../views.dart';
+import 'dart:async';
+import 'dart:ui';
+
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:telemedicine_doctor/components/components.dart';
+import 'package:telemedicine_doctor/const/app_constant.dart';
+import 'package:telemedicine_doctor/providers/providers.dart';
+import 'package:telemedicine_doctor/utils/utils.dart';
+import 'package:telemedicine_doctor/views/views.dart';
 
 class AvPage extends StatefulWidget {
   final String namePasien;
   final int id;
   final String phone;
+
   const AvPage(
       {Key? key,
       required this.namePasien,
@@ -12,17 +25,17 @@ class AvPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AvPageState createState() => _AvPageState();
+  State<AvPage> createState() => _AvPageState();
 }
 
 //http://telemedicine-test.akunku.co/api/log-konsul/{id}
 
 class _AvPageState extends State<AvPage> {
   late String appId = '40d5d2002f3948dbb3f86c40d1562ffc'; //api
-  late String tokenRtc = ''; //api refresh token
+  late String? tokenRtc = ''; //api refresh token
   late String chanelNameRtc = widget.phone; //no telp pasien
 
-  int _remoteUid = 0;
+  int? _remoteUid = 0;
   bool _localUserJoined = false;
   late RtcEngine _engine;
   late bool video = true;
@@ -34,7 +47,7 @@ class _AvPageState extends State<AvPage> {
   void initState() {
     getApi().whenComplete(
         () => Timer(const Duration(seconds: 0), () => initAgora()));
-    // initAgora();
+    initAgora();
     super.initState();
   }
 
@@ -58,26 +71,33 @@ class _AvPageState extends State<AvPage> {
     await [Permission.microphone, Permission.camera].request();
 
     //create the engine
-    _engine = await RtcEngine.create(appId);
+    _engine = createAgoraRtcEngine();
+    _engine.initialize(RtcEngineContext(
+        appId: appId,
+        channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
+        threadPriority: ThreadPriorityType.highest));
+
+    debugPrint("agora credentials $appId, $chanelNameRtc, $tokenRtc");
 
     await _engine.enableVideo();
     await _engine.enableAudio();
 
-    _engine.setEventHandler(
+    _engine.registerEventHandler(
       RtcEngineEventHandler(
-        joinChannelSuccess: (String channel, int uid, int elapsed) {
+        onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           // print("local user $uid joined");
           setState(() {
             _localUserJoined = true;
           });
         },
-        userJoined: (int uid, int elapsed) {
+        onUserJoined: (RtcConnection connection, int uid, int elapsed) {
           // print("remote user $uid joined");
           setState(() {
             _remoteUid = uid;
           });
         },
-        userOffline: (int uid, UserOfflineReason reason) {
+        onUserOffline: (RtcConnection connection, int remoteUid,
+            UserOfflineReasonType reason) {
           // print("remote user $uid left channel");
           setState(() {
             _remoteUid = 0;
@@ -85,15 +105,27 @@ class _AvPageState extends State<AvPage> {
         },
       ),
     );
+    debugPrint("Remote ID $_remoteUid");
 
-    await _engine.joinChannel(tokenRtc, chanelNameRtc, null, 0);
+    await _engine.joinChannel(
+        token: tokenRtc ?? AGORA_TOKEN,
+        channelId: chanelNameRtc,
+        uid: _remoteUid ?? 0,
+        options: const ChannelMediaOptions(
+            clientRoleType: ClientRoleType.clientRoleBroadcaster,
+            channelProfile: ChannelProfileType.channelProfileCommunication));
   }
 
   // Display remote user's video
   Widget _remoteVideo() {
     if (_remoteUid != 0) {
-      return RtcRemoteView.SurfaceView(
-          uid: _remoteUid, channelId: chanelNameRtc);
+      return AgoraVideoView(
+        controller: VideoViewController.remote(
+          rtcEngine: _engine,
+          canvas: VideoCanvas(uid: _remoteUid),
+          connection: RtcConnection(channelId: chanelNameRtc),
+        ),
+      );
     } else {
       return const Text(
         'Please wait for remote user to join',
@@ -108,21 +140,25 @@ class _AvPageState extends State<AvPage> {
 
     setState(() {
       // appId = '${consultProviders.accept?.agoraAppId}';
-      tokenRtc = '${consultProviders.accept?.tokenRtc}';
+      tokenRtc = consultProviders.accept?.tokenRtc;
       // chanelNameRtc = '${consultProviders.accept?.chanelName}';
     });
 
     //widget local view
     Widget localViewRtc() {
-      return Align(
-        alignment: Alignment.topRight,
-        child: SizedBox(
-          width: 100,
-          height: 150,
-          child: Center(
-            child: _localUserJoined
-                ? RtcLocalView.SurfaceView()
-                : const CircularProgressIndicator(),
+      return SafeArea(
+        child: Align(
+          alignment: Alignment.topRight,
+          child: SizedBox(
+            width: 100,
+            height: 150,
+            child: Center(
+              child: _localUserJoined
+                  ? AgoraVideoView(
+                      controller: VideoViewController(
+                          rtcEngine: _engine, canvas: const VideoCanvas(uid: 0)))
+                  : const CircularProgressIndicator(),
+            ),
           ),
         ),
       );
@@ -130,32 +166,30 @@ class _AvPageState extends State<AvPage> {
 
     Future<void> quitVideoCall() async {
       // Create RTC client instance
-      RtcEngineContext context = RtcEngineContext(appId);
-      var engine = await RtcEngine.createWithContext(context);
-      await engine.disableVideo();
-      await engine.disableAudio();
-      await engine.leaveChannel();
+      setState(() {
+        _localUserJoined = false;
+        _remoteUid = null;
+      });
+      await _engine.disableVideo();
+      await _engine.disableAudio();
+      await _engine.leaveChannel();
     }
 
     Future<void> switchVideo() async {
       // Create RTC client instance
-      RtcEngineContext context = RtcEngineContext(appId);
-      var engine = await RtcEngine.createWithContext(context);
       if (video) {
-        await engine.enableVideo();
+        await _engine.enableVideo();
       } else {
-        await engine.disableVideo();
+        await _engine.disableVideo();
       }
     }
 
     Future<void> switchAudio() async {
       // Create RTC client instance
-      RtcEngineContext context = RtcEngineContext(appId);
-      var engine = await RtcEngine.createWithContext(context);
       if (mic) {
-        await engine.enableAudio();
+        await _engine.enableAudio();
       } else {
-        await engine.disableAudio();
+        await _engine.disableAudio();
       }
     }
 
@@ -170,9 +204,9 @@ class _AvPageState extends State<AvPage> {
               await Provider.of<ConsultProviders>(context, listen: false)
                   .followUpConsult(widget.id);
               Navigator.push(
-                  context,
+                  Get.context!,
                   MaterialPageRoute(
-                    builder: (context) => FollowUpPage(id: widget.id),
+                    builder: (_) => FollowUpPage(id: widget.id),
                   ));
               // Navigator.pushNamed(context, '/follow_up');
             },
@@ -192,7 +226,7 @@ class _AvPageState extends State<AvPage> {
           .skipQueue(widget.id);
 
       Navigator.pushNamedAndRemoveUntil(
-          context, '/list_patient', (Route<dynamic> route) => false);
+          Get.context!, '/list_patient', (Route<dynamic> route) => false);
     }
 
     //widget popup
@@ -341,29 +375,38 @@ class _AvPageState extends State<AvPage> {
       );
     }
 
-    return WillPopScope(child: Scaffold(
-      backgroundColor: CustomColor.light4Color,
-      body: Stack(
-        children: [
-          Center(
-            child: _remoteVideo(),
-          ),
-          localViewRtc(),
-          bottomComponents(),
-          Visibility(
-              visible: isLoading,
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                height: double.infinity,
-                width: double.infinity,
-                child: const Center(
-                  child: LoadingCircle(),
-                ),
-              ))
-        ],
+    return WillPopScope(
+      child: Scaffold(
+        backgroundColor: CustomColor.light4Color,
+        body: Stack(
+          children: [
+            Center(
+              child: _remoteVideo(),
+            ),
+            localViewRtc(),
+            bottomComponents(),
+            Visibility(
+                visible: isLoading,
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: const Center(
+                    child: LoadingCircle(),
+                  ),
+                ))
+          ],
+        ),
       ),
-    ), onWillPop: () async {
-      return false;
-    },);
+      onWillPop: () async {
+        return false;
+      },
+    );
+  }
+
+  @override
+  void dispose() async {
+    await _engine.release();
+    super.dispose();
   }
 }

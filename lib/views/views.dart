@@ -2,22 +2,16 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lottie/lottie.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:telemedicine_doctor/components/components.dart';
 import 'package:telemedicine_doctor/providers/providers.dart';
 import 'package:telemedicine_doctor/services/services.dart';
 import 'package:telemedicine_doctor/utils/utils.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:agora_rtc_engine/rtc_engine.dart';
-import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
-import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:telemedicine_doctor/models/models.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,7 +28,6 @@ part './users/tambah_pesan_cepat.dart';
 part './users/user_profile.dart';
 part './consultation/list_patient.dart';
 part './consultation/list_month.dart';
-part './consultation/av_page.dart';
 part './consultation/chat_page.dart';
 part './consultation/follow_up.dart';
 part './consultation/loading_success.dart';

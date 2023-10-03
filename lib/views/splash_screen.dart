@@ -9,7 +9,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late SharedPreferences sharedPreferences;
-  late String finalToken;
+  late String? finalToken;
 
   @override
   void initState() {
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Timer(
           const Duration(seconds: 3),
           () => Navigator.pushReplacementNamed(
-              context, (finalToken == 'null') ? '/login' : '/dashboard'));
+              context, (finalToken == null) ? '/login' : '/dashboard'));
     });
   }
 
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     sharedPreferences = await SharedPreferences.getInstance();
     var obtainedToken = sharedPreferences.getString("token");
     setState(() {
-      finalToken = obtainedToken.toString();
+      finalToken = obtainedToken;
     });
   }
 
